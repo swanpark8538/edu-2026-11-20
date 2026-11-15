@@ -1,0 +1,243 @@
+@charset "utf-8";
+
+/* KRDS 기본 서체 (Pretendard GOV) */
+@font-face {
+  font-family: "Pretendard GOV";
+  font-weight: 400;
+  font-display: swap;
+  src: url(../krds/fonts/PretendardGOV-Regular.subset.woff2) format("woff2"),
+       url(../krds/fonts/PretendardGOV-Regular.subset.woff) format("woff");
+}
+@font-face {
+  font-family: "Pretendard GOV";
+  font-weight: 500;
+  font-display: swap;
+  src: url(../krds/fonts/PretendardGOV-Medium.subset.woff2) format("woff2"),
+       url(../krds/fonts/PretendardGOV-Medium.subset.woff) format("woff");
+}
+@font-face {
+  font-family: "Pretendard GOV";
+  font-weight: 700;
+  font-display: swap;
+  src: url(../krds/fonts/PretendardGOV-Bold.subset.woff2) format("woff2"),
+       url(../krds/fonts/PretendardGOV-Bold.subset.woff) format("woff");
+}
+
+#wrap {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+#krds-header {
+  border-bottom: 1px solid var(--krds-light-color-divider-gray-light);
+}
+#krds-header .header-container .inner {
+  padding-top: var(--krds-padding-5);
+  padding-bottom: var(--krds-padding-5);
+}
+#krds-header .header-branding {
+  gap: var(--krds-gap-4);
+}
+#krds-header .service-name {
+  font-size: var(--krds-pc-font-size-heading-small);
+  font-weight: var(--krds-font-weight-bold);
+  color: var(--krds-light-color-text-basic);
+  text-decoration: none;
+}
+
+.board-contents {
+  flex: 1 0 auto;
+  padding-bottom: var(--krds-padding-10, 6.4rem);
+}
+.board-contents .krds-breadcrumb-wrap {
+  padding-top: var(--krds-padding-6);
+}
+
+.board-title {
+  margin: var(--krds-gap-5) 0 var(--krds-gap-7);
+  font-size: var(--krds-pc-font-size-heading-large);
+  font-weight: var(--krds-font-weight-bold);
+  color: var(--krds-light-color-text-basic);
+}
+
+/* 처리 결과 안내 */
+.board-alert {
+  margin-bottom: var(--krds-gap-6);
+  padding: var(--krds-padding-5) var(--krds-padding-6);
+  border: 1px solid;
+  border-radius: var(--krds-radius-medium2, 0.8rem);
+  font-size: var(--krds-pc-font-size-body-medium);
+}
+.board-alert.success {
+  border-color: var(--krds-light-color-border-success-light, #8bc9a2);
+  background-color: var(--krds-light-color-surface-success-subtler, #eaf6ec);
+  color: var(--krds-light-color-text-basic);
+}
+.board-alert.error {
+  border-color: var(--krds-light-color-border-danger-light, #f4a6a6);
+  background-color: var(--krds-light-color-surface-danger-subtler, #fdefec);
+  color: var(--krds-light-color-text-danger, #bd2c0f);
+}
+
+/* 검색 */
+.board-search {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--krds-gap-3);
+  margin-bottom: var(--krds-gap-6);
+  padding: var(--krds-padding-6);
+  border-radius: var(--krds-radius-medium2, 0.8rem);
+  background-color: var(--krds-light-color-surface-gray-subtler);
+}
+.board-search .search-field.condition {
+  flex: 0 0 16rem;
+}
+.board-search .search-field.keyword {
+  flex: 1 1 28rem;
+}
+.board-search .search-field .krds-input,
+.board-search .search-field .krds-form-select {
+  width: 100%;
+}
+
+.board-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--krds-gap-3);
+  margin-bottom: var(--krds-gap-4);
+}
+.board-summary .total {
+  font-size: var(--krds-pc-font-size-body-medium);
+  color: var(--krds-light-color-text-subtle);
+}
+.board-summary .total strong {
+  color: var(--krds-light-color-text-primary, #256ef4);
+}
+
+/* 목록 표 */
+.board-table .col-no { width: 8%; }
+.board-table .col-writer { width: 14%; }
+.board-table .col-file { width: 9%; }
+.board-table .col-date { width: 14%; }
+.krds-table-wrap .board-table.data thead th,
+.krds-table-wrap .board-table.data .cell-center {
+  text-align: center;
+}
+.board-table .cell-subject a {
+  color: var(--krds-light-color-text-basic);
+  text-decoration: none;
+  word-break: break-all;
+}
+.board-table .cell-subject a:hover,
+.board-table .cell-subject a:focus {
+  text-decoration: underline;
+}
+.board-table .cell-empty {
+  padding: var(--krds-padding-10, 4rem) 0;
+  text-align: center;
+  color: var(--krds-light-color-text-subtle);
+}
+.board-table .file-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.board-contents .krds-pagination {
+  margin-top: var(--krds-gap-7);
+}
+
+/* 입력 화면 */
+.board-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--krds-gap-3) var(--krds-gap-7);
+  margin-bottom: var(--krds-gap-6);
+  padding: var(--krds-padding-5) var(--krds-padding-6);
+  border-radius: var(--krds-radius-medium2, 0.8rem);
+  background-color: var(--krds-light-color-surface-gray-subtler);
+  font-size: var(--krds-pc-font-size-body-small);
+}
+.board-meta > div {
+  display: flex;
+  gap: var(--krds-gap-2);
+}
+.board-meta dt {
+  font-weight: var(--krds-font-weight-bold);
+  color: var(--krds-light-color-text-subtle);
+}
+
+.form-required-guide {
+  margin-bottom: var(--krds-gap-4);
+  font-size: var(--krds-pc-font-size-body-small);
+  color: var(--krds-light-color-text-subtle);
+}
+.required {
+  color: var(--krds-light-color-text-danger, #bd2c0f);
+}
+.board-form .fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: var(--krds-gap-6);
+}
+.board-form .form-group .krds-input {
+  width: 100%;
+}
+.board-form .board-textarea {
+  min-height: 24rem;
+}
+
+.board-form .krds-file-upload {
+  margin-top: var(--krds-gap-7);
+}
+.board-form .krds-file-upload .file-ext-guide {
+  margin-top: var(--krds-gap-1, 0.4rem);
+  font-size: var(--krds-pc-font-size-body-small);
+  color: var(--krds-light-color-text-subtle);
+  word-break: break-all;
+}
+.board-form .krds-file-upload .file-upload.is-dragover {
+  border-color: var(--krds-light-color-border-primary);
+  background-color: var(--krds-light-color-surface-primary-subtler);
+}
+.board-form .file-empty {
+  padding: var(--krds-padding-5) 0;
+  color: var(--krds-light-color-text-subtle);
+}
+
+.board-btn-wrap {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--krds-gap-3);
+  margin-top: var(--krds-gap-8, 4rem);
+}
+.board-btn-wrap .krds-btn.tertiary {
+  margin-right: auto;
+}
+
+@media (max-width: 767px) {
+  .board-title {
+    font-size: var(--krds-mobile-font-size-heading-large);
+  }
+  .board-search .search-field.condition,
+  .board-search .search-field.keyword {
+    flex: 1 1 100%;
+  }
+  .board-search .krds-btn {
+    width: 100%;
+  }
+  .board-table .col-no,
+  .board-table .col-file,
+  .board-table thead th:nth-child(1),
+  .board-table thead th:nth-child(4),
+  .board-table tbody td:nth-child(1),
+  .board-table tbody td:nth-child(4) {
+    display: none;
+  }
+  .board-table tbody td.cell-empty {
+    display: table-cell;
+  }
+}

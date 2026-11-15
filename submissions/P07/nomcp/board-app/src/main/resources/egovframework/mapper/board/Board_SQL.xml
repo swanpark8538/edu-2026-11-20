@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boardDAO">
+
+    <sql id="searchWhere">
+        <if test="searchKeyword != null and searchKeyword != ''">
+            <choose>
+                <when test='searchCondition == "1"'>
+                    AND B.CONTENT LIKE '%' || #{searchKeywordLike} || '%' ESCAPE '!'
+                </when>
+                <when test='searchCondition == "2"'>
+                    AND B.WRITER LIKE '%' || #{searchKeywordLike} || '%' ESCAPE '!'
+                </when>
+                <otherwise>
+                    AND B.TITLE LIKE '%' || #{searchKeywordLike} || '%' ESCAPE '!'
+                </otherwise>
+            </choose>
+        </if>
+    </sql>
+
+    <select id="selectBoardList" parameterType="boardDefaultVO" resultType="boardVO">
+        SELECT B.BOARD_ID, B.TITLE, B.WRITER, B.ATCH_FILE_ID, B.REG_DT, B.UPD_DT,
+               (SELECT COUNT(*) FROM ATTACH_FILE_DETAIL D WHERE D.ATCH_FILE_ID = B.ATCH_FILE_ID) AS FILE_CNT
+          FROM BOARD B
+         WHERE 1 = 1
+        <include refid="searchWhere"/>
+         ORDER BY B.REG_DT DESC, B.BOARD_ID DESC
+         LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+    </select>
+
+    <select id="selectBoardListTotCnt" parameterType="boardDefaultVO" resultType="int">
+        SELECT COUNT(*)
+          FROM BOARD B
+         WHERE 1 = 1
+        <include refid="searchWhere"/>
+    </select>
+
+    <select id="selectBoard" parameterType="string" resultType="boardVO">
+        SELECT B.BOARD_ID, B.TITLE, B.CONTENT, B.WRITER, B.ATCH_FILE_ID, B.REG_DT, B.UPD_DT
+          FROM BOARD B
+         WHERE B.BOARD_ID = #{boardId}
+    </select>
+
+    <insert id="insertBoard" parameterType="boardVO">
+        INSERT INTO BOARD (BOARD_ID, TITLE, CONTENT, WRITER, ATCH_FILE_ID, REG_DT)
+        VALUES (#{boardId}, #{title}, #{content}, #{writer}, #{atchFileId}, CURRENT_TIMESTAMP)
+    </insert>
+
+    <update id="updateBoard" parameterType="boardVO">
+        UPDATE BOARD
+           SET TITLE = #{title},
+               CONTENT = #{content},
+               WRITER = #{writer},
+               ATCH_FILE_ID = #{atchFileId},
+               UPD_DT = CURRENT_TIMESTAMP
+         WHERE BOARD_ID = #{boardId}
+    </update>
+
+    <delete id="deleteBoard" parameterType="string">
+        DELETE FROM BOARD
+         WHERE BOARD_ID = #{boardId}
+    </delete>
+
+</mapper>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="head(pageTitle)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${pageTitle} + ' | 게시판'">게시판</title>
+    <link rel="icon" type="image/svg+xml" th:href="@{/krds/img/component/favicon/favicon.svg}">
+    <link rel="icon" type="image/png" sizes="32x32" th:href="@{/krds/img/component/favicon/favicon-32x32.png}">
+    <link rel="stylesheet" th:href="@{/krds/css/component/output.css}">
+    <link rel="stylesheet" th:href="@{/css/board.css}">
+    <script th:src="@{/js/board.js}" defer></script>
+</head>
+
+<body>
+
+<th:block th:fragment="header">
+    <div id="krds-skip-link">
+        <a href="#contents">본문 바로가기</a>
+    </div>
+
+    <div id="krds-masthead">
+        <div class="toggle-wrap">
+            <div class="toggle-head">
+                <div class="inner">
+                    <span class="nuri-txt">이 누리집은 대한민국 공식 전자정부 누리집입니다.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header id="krds-header">
+        <div class="header-in">
+            <div class="header-container">
+                <div class="inner">
+                    <div class="header-branding">
+                        <h1 class="logo">
+                            <a th:href="@{/board/list.do}">
+                                <span class="sr-only">KRDS - Korea Design System</span>
+                            </a>
+                        </h1>
+                        <a class="service-name" th:href="@{/board/list.do}">게시판</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+</th:block>
+
+<th:block th:fragment="footer">
+    <footer id="krds-footer">
+        <div class="inner">
+            <div class="f-logo">
+                <span class="sr-only">KRDS - Korea Design System</span>
+            </div>
+            <div class="f-btm">
+                <div class="f-btm-text">
+                    <p class="f-copy">eGovFrame 5.0 Boot 게시판 샘플. 화면은 대한민국 디지털 정부 디자인 시스템(KRDS)을 따릅니다.</p>
+                </div>
+                <div class="krds-identifier">
+                    <span class="logo">
+                        <span class="sr-only">KRDS - Korea Design System</span>
+                    </span>
+                    <span class="ban-txt">이 누리집은 전자정부 표준프레임워크 게시판 누리집입니다.</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+</th:block>
+
+<th:block th:fragment="breadcrumb(current)">
+    <nav class="krds-breadcrumb-wrap" aria-label="현재 경로">
+        <ol class="breadcrumb">
+            <li class="home"><a th:href="@{/board/list.do}" class="txt">홈</a></li>
+            <li><a th:href="@{/board/list.do}" class="txt">게시판</a></li>
+            <li th:if="${current != null}"><span class="txt" aria-current="page" th:text="${current}">현재</span></li>
+        </ol>
+    </nav>
+</th:block>
+
+<th:block th:fragment="alerts">
+    <div class="board-alert success" role="status" th:if="${message != null}">
+        <p th:text="${message}">처리했습니다.</p>
+    </div>
+    <div class="board-alert error" role="alert" th:if="${errorMessage != null}">
+        <p th:text="${errorMessage}">오류가 발생했습니다.</p>
+    </div>
+</th:block>
+
+</body>
+</html>

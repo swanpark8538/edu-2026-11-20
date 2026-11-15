@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('게시물 조회·수정')}"></head>
+<body>
+<div id="wrap">
+    <th:block th:replace="~{fragments/layout :: header}"></th:block>
+
+    <main id="contents" class="board-contents">
+        <div class="inner">
+            <th:block th:replace="~{fragments/layout :: breadcrumb('조회·수정')}"></th:block>
+
+            <h2 class="board-title">게시물 조회·수정</h2>
+
+            <th:block th:replace="~{fragments/layout :: alerts}"></th:block>
+
+            <dl class="board-meta">
+                <div>
+                    <dt>게시물 번호</dt>
+                    <dd th:text="${boardVO.boardId}">BOARD_00000000000001</dd>
+                </div>
+                <div>
+                    <dt>등록일시</dt>
+                    <dd th:text="${#temporals.format(boardVO.regDt, 'yyyy-MM-dd HH:mm')}">2026-01-01 00:00</dd>
+                </div>
+                <div th:if="${boardVO.updDt != null}">
+                    <dt>수정일시</dt>
+                    <dd th:text="${#temporals.format(boardVO.updDt, 'yyyy-MM-dd HH:mm')}">2026-01-01 00:00</dd>
+                </div>
+            </dl>
+
+            <form id="boardForm" class="board-form" th:action="@{/board/update.do}" th:object="${boardVO}"
+                  method="post" enctype="multipart/form-data">
+                <input type="hidden" th:field="*{boardId}">
+                <th:block th:replace="~{board/boardForm :: fields}"></th:block>
+
+                <section class="krds-file-upload line board-attached" aria-labelledby="attached-title">
+                    <div class="file-head">
+                        <h3 class="tit" id="attached-title">첨부파일 목록</h3>
+                    </div>
+                    <div class="file-list">
+                        <div class="total"><span class="current" th:text="|${#lists.size(fileList)}개|">0개</span></div>
+                        <ul class="upload-list" th:unless="${#lists.isEmpty(fileList)}">
+                            <li th:each="file : ${fileList}">
+                                <div class="file-info m-column">
+                                    <div class="file-name" th:text="|${file.orignlFileNm} [${file.fileExtsn}, ${file.fileSizeText}]|">파일명 [hwp, 17KB]</div>
+                                    <div class="btn-wrap">
+                                        <a class="krds-btn medium text"
+                                           th:href="@{/cmm/fms/fileDown.do(atchFileId=${file.atchFileId},fileSn=${file.fileSn})}"
+                                           th:title="|${file.orignlFileNm} 내려받기|">다운로드 <i class="svg-icon ico-down" aria-hidden="true"></i></a>
+                                        <button type="submit" class="krds-btn medium text" form="deleteFileForm"
+                                                name="fileSn" th:value="${file.fileSn}"
+                                                th:title="|${file.orignlFileNm} 삭제|"
+                                                data-confirm="첨부파일을 삭제하시겠습니까?">삭제 <i class="svg-icon ico-delete-fill" aria-hidden="true"></i></button>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        <p class="file-empty" th:if="${#lists.isEmpty(fileList)}">첨부된 파일이 없습니다.</p>
+                    </div>
+                </section>
+
+                <th:block th:replace="~{board/boardForm :: fileUpload(${#lists.size(fileList)})}"></th:block>
+
+                <div class="board-btn-wrap">
+                    <a class="krds-btn tertiary"
+                       th:href="@{/board/list.do(searchCondition=*{searchCondition},searchKeyword=*{searchKeyword},pageIndex=*{pageIndex})}">목록</a>
+                    <button type="submit" class="krds-btn secondary" form="deleteForm"
+                            data-confirm="게시물을 삭제하시겠습니까? 첨부파일도 함께 삭제됩니다.">삭제</button>
+                    <button type="submit" class="krds-btn primary">수정</button>
+                </div>
+            </form>
+
+            <form id="deleteForm" th:action="@{/board/delete.do}" method="post" hidden>
+                <input type="hidden" name="boardId" th:value="${boardVO.boardId}">
+                <input type="hidden" name="searchCondition" th:value="${boardVO.searchCondition}">
+                <input type="hidden" name="searchKeyword" th:value="${boardVO.searchKeyword}">
+                <input type="hidden" name="pageIndex" th:value="${boardVO.pageIndex}">
+            </form>
+
+            <form id="deleteFileForm" th:action="@{/board/deleteFile.do}" method="post" hidden>
+                <input type="hidden" name="boardId" th:value="${boardVO.boardId}">
+                <input type="hidden" name="searchCondition" th:value="${boardVO.searchCondition}">
+                <input type="hidden" name="searchKeyword" th:value="${boardVO.searchKeyword}">
+                <input type="hidden" name="pageIndex" th:value="${boardVO.pageIndex}">
+            </form>
+        </div>
+    </main>
+
+    <th:block th:replace="~{fragments/layout :: footer}"></th:block>
+</div>
+</body>
+</html>

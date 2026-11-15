@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('게시물 목록')}"></head>
+<body>
+<div id="wrap">
+    <th:block th:replace="~{fragments/layout :: header}"></th:block>
+
+    <main id="contents" class="board-contents">
+        <div class="inner">
+            <th:block th:replace="~{fragments/layout :: breadcrumb('목록')}"></th:block>
+
+            <h2 class="board-title">게시물 목록</h2>
+
+            <th:block th:replace="~{fragments/layout :: alerts}"></th:block>
+
+            <form class="board-search" th:action="@{/board/list.do}" method="get" role="search" aria-label="게시물 검색">
+                <div class="search-field condition">
+                    <label for="searchCondition" class="sr-only">검색 조건</label>
+                    <select id="searchCondition" name="searchCondition" class="krds-form-select" title="검색 조건 선택">
+                        <option value="0" th:selected="${searchVO.searchCondition == '0'}">제목</option>
+                        <option value="1" th:selected="${searchVO.searchCondition == '1'}">내용</option>
+                        <option value="2" th:selected="${searchVO.searchCondition == '2'}">작성자</option>
+                    </select>
+                </div>
+                <div class="search-field keyword">
+                    <label for="searchKeyword" class="sr-only">검색어</label>
+                    <input type="text" id="searchKeyword" name="searchKeyword" class="krds-input"
+                           maxlength="100" placeholder="검색어를 입력해 주세요" th:value="${searchVO.searchKeyword}">
+                </div>
+                <input type="hidden" name="pageIndex" value="1">
+                <button type="submit" class="krds-btn primary">검색</button>
+            </form>
+
+            <div class="board-summary">
+                <p class="total">
+                    전체 <strong th:text="${totCnt}">0</strong>건
+                    <span class="page-info" th:text="|(${paginationInfo.currentPageNo} / ${paginationInfo.totalPageCount} 페이지)|">(1 / 1 페이지)</span>
+                </p>
+                <a class="krds-btn primary"
+                   th:href="@{/board/register.do(searchCondition=${searchVO.searchCondition},searchKeyword=${searchVO.searchKeyword},pageIndex=${searchVO.pageIndex})}">글쓰기</a>
+            </div>
+
+            <div class="krds-table-wrap">
+                <table class="tbl col data board-table">
+                    <caption>게시물 목록으로 번호, 제목, 작성자, 첨부, 등록일로 구성되어 있습니다.</caption>
+                    <colgroup>
+                        <col class="col-no">
+                        <col>
+                        <col class="col-writer">
+                        <col class="col-file">
+                        <col class="col-date">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th scope="col">번호</th>
+                        <th scope="col">제목</th>
+                        <th scope="col">작성자</th>
+                        <th scope="col">첨부</th>
+                        <th scope="col">등록일</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="result, status : ${resultList}">
+                        <td class="cell-center" th:text="${totCnt - searchVO.firstIndex - status.index}">1</td>
+                        <td class="cell-subject">
+                            <a th:href="@{/board/update.do(boardId=${result.boardId},searchCondition=${searchVO.searchCondition},searchKeyword=${searchVO.searchKeyword},pageIndex=${searchVO.pageIndex})}"
+                               th:text="${result.title}">제목</a>
+                        </td>
+                        <td class="cell-center" th:text="${result.writer}">작성자</td>
+                        <td class="cell-center">
+                            <span class="file-count" th:if="${result.fileCnt > 0}">
+                                <i class="svg-icon ico-file" aria-hidden="true"></i><span class="sr-only">첨부파일 </span><span th:text="${result.fileCnt}">1</span>
+                            </span>
+                            <span th:unless="${result.fileCnt > 0}"><span class="sr-only">첨부파일 없음</span>-</span>
+                        </td>
+                        <td class="cell-center" th:text="${#temporals.format(result.regDt, 'yyyy-MM-dd')}">2026-01-01</td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(resultList)}">
+                        <td colspan="5" class="cell-empty">
+                            <th:block th:if="${#strings.isEmpty(searchVO.searchKeyword)}">등록된 게시물이 없습니다.</th:block>
+                            <th:block th:unless="${#strings.isEmpty(searchVO.searchKeyword)}">검색 결과가 없습니다.</th:block>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <nav class="krds-pagination" aria-label="페이지 이동" th:utext="${pagination}"></nav>
+        </div>
+    </main>
+
+    <th:block th:replace="~{fragments/layout :: footer}"></th:block>
+</div>
+</body>
+</html>

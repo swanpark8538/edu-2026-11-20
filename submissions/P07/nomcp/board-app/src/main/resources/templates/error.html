@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('안내')}"></head>
+<body>
+<div id="wrap">
+    <th:block th:replace="~{fragments/layout :: header}"></th:block>
+
+    <main id="contents" class="board-contents">
+        <div class="inner">
+            <h2 class="board-title">요청을 처리하지 못했습니다</h2>
+
+            <div class="board-alert error" role="alert">
+                <p th:if="${errorMessage != null}" th:text="${errorMessage}">오류 안내</p>
+                <th:block th:if="${errorMessage == null}" th:switch="${status}">
+                    <p th:case="403">요청이 거부되었습니다. 화면을 새로 고친 뒤 다시 시도해 주세요. 첨부파일이 너무 크면 요청이 거부될 수 있습니다.</p>
+                    <p th:case="404">요청한 페이지를 찾을 수 없습니다.</p>
+                    <p th:case="405">허용되지 않는 요청 방식입니다.</p>
+                    <p th:case="413">첨부파일 용량이 허용 범위를 초과했습니다.</p>
+                    <p th:case="*">요청을 처리하는 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.</p>
+                </th:block>
+            </div>
+
+            <div class="board-btn-wrap">
+                <a class="krds-btn primary" th:href="@{/board/list.do}">게시물 목록으로</a>
+            </div>
+        </div>
+    </main>
+
+    <th:block th:replace="~{fragments/layout :: footer}"></th:block>
+</div>
+</body>
+</html>
