@@ -5,11 +5,16 @@
   "platform": "darwin-arm64",
   "versions": {},
   "note": "구버전 저장소(swanpark8538/edu-20261120)의 시험 제출물을 옮겼습니다. 준비·제출 시각 기록은 없습니다.",
-  "current": "nomcp",
+  "current": "mcp",
   "runs": {
     "nomcp": {
       "tool": "Codex",
       "limitMinutes": 30,
+      "warnings": []
+    },
+    "mcp": {
+      "tool": "Codex",
+      "limitMinutes": 20,
       "warnings": []
     }
   }
