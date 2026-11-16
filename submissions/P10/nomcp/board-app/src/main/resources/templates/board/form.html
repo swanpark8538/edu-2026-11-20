@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시물 작성</title>
+    <style>
+        body { font-family: sans-serif; max-width: 800px; margin: 2rem auto; }
+        label { display: block; margin-top: 1rem; } input[type=text], textarea { width: 100%; }
+        .err { color: #c00; }
+    </style>
+</head>
+<body>
+<h1 th:text="${board.boardId == null} ? '글쓰기' : '글 수정'"></h1>
+<form th:action="${board.boardId == null} ? @{/board} : @{/board/{id}(id=${board.boardId})}"
+      method="post" enctype="multipart/form-data">
+    <label>제목 <input type="text" name="title" th:value="${board.title}" maxlength="200"></label>
+    <div class="err" th:if="${#fields.hasErrors('board.title')}" th:errors="${board.title}"></div>
+    <label>작성자 <input type="text" name="writer" th:value="${board.writer}" maxlength="50"></label>
+    <div class="err" th:if="${#fields.hasErrors('board.writer')}" th:errors="${board.writer}"></div>
+    <label>내용 <textarea name="content" rows="10" maxlength="4000" th:text="${board.content}"></textarea></label>
+    <div th:if="${board.files != null and !#lists.isEmpty(board.files)}">
+        <p>기존 첨부파일 (체크하면 삭제)</p>
+        <label th:each="f : ${board.files}">
+            <input type="checkbox" name="deleteFileIds" th:value="${f.fileId}"> <span th:text="${f.origName}"></span>
+        </label>
+    </div>
+    <label>첨부파일 <input type="file" name="attachments" multiple></label>
+    <p><button type="submit">저장</button> <a th:href="@{/board}">취소</a></p>
+</form>
+</body>
+</html>

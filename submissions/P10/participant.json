@@ -1,0 +1,25 @@
+{
+  "id": "P10",
+  "tool": "Claude-Code",
+  "model": "Claude Opus 5.5 · medium",
+  "platform": "win32-x64",
+  "versions": {
+    "node": "22.14.0",
+    "java": "17.0.5",
+    "maven": "3.9.9",
+    "git": "2.48.1.windows.1",
+    "gh": null
+  },
+  "current": "nomcp",
+  "runs": {
+    "nomcp": {
+      "tool": "Claude-Code",
+      "setupAt": "2026-11-16T05:21:34.314Z",
+      "limitMinutes": 30,
+      "warnings": [],
+      "submittedAt": "2026-11-16T05:38:35.095Z",
+      "elapsedMinutes": 17,
+      "overLimit": false
+    }
+  }
+}

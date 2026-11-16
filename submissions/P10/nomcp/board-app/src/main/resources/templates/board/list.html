@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시판</title>
+    <style>
+        body { font-family: sans-serif; max-width: 800px; margin: 2rem auto; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border-bottom: 1px solid #ddd; padding: .5rem; text-align: left; }
+    </style>
+</head>
+<body>
+<h1>게시판</h1>
+<p><a th:href="@{/board/new}">글쓰기</a></p>
+<table>
+    <thead><tr><th>번호</th><th>제목</th><th>작성자</th><th>작성일</th></tr></thead>
+    <tbody>
+    <tr th:each="b : ${boards}">
+        <td th:text="${b.boardId}"></td>
+        <td><a th:href="@{/board/{id}(id=${b.boardId})}" th:text="${b.title}"></a></td>
+        <td th:text="${b.writer}"></td>
+        <td th:text="${#dates.format(b.regDt, 'yyyy-MM-dd HH:mm')}"></td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(boards)}"><td colspan="4">게시물이 없습니다.</td></tr>
+    </tbody>
+</table>
+</body>
+</html>
