@@ -10,7 +10,7 @@
     "git": "2.48.1.windows.1",
     "gh": null
   },
-  "current": "nomcp",
+  "current": "mcp",
   "runs": {
     "nomcp": {
       "tool": "Claude-Code",
@@ -20,6 +20,15 @@
       "submittedAt": "2026-11-16T05:38:35.095Z",
       "elapsedMinutes": 17,
       "overLimit": false
+    },
+    "mcp": {
+      "tool": "Claude-Code",
+      "setupAt": "2026-11-16T05:53:47.373Z",
+      "limitMinutes": 20,
+      "warnings": [],
+      "submittedAt": "2026-11-16T06:24:40.379Z",
+      "elapsedMinutes": 30.9,
+      "overLimit": true
     }
   }
 }
