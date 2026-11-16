@@ -1,0 +1,16 @@
+{
+  "id": "P05",
+  "tool": "Claude-Code",
+  "model": "기록 없음",
+  "platform": "win32-x64",
+  "versions": {},
+  "note": "구버전 저장소(swanpark8538/edu-20261120)의 시험 제출물을 옮겼습니다. 준비·제출 시각 기록은 없습니다.",
+  "current": "nomcp",
+  "runs": {
+    "nomcp": {
+      "tool": "Claude-Code",
+      "limitMinutes": 30,
+      "warnings": []
+    }
+  }
+}
