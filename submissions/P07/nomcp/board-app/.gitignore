@@ -1,0 +1,6 @@
+target/
+upload/
+.idea/
+*.iml
+.vscode/
+.DS_Store

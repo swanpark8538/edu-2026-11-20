@@ -1,0 +1,40 @@
+{
+  "id": "P07",
+  "tool": "Cursor",
+  "model": "Claude Opus 5.5 · medium",
+  "platform": "darwin-arm64",
+  "versions": {
+    "node": "22.23.5",
+    "java": "17.0.18",
+    "maven": "3.9.9",
+    "git": "2.50.1",
+    "gh": "2.76.2"
+  },
+  "current": "mcp",
+  "runs": {
+    "nomcp": {
+      "tool": "Cursor",
+      "setupAt": "2026-11-15T16:19:47.918Z",
+      "limitMinutes": 30,
+      "warnings": [
+        "켜져 있는 다른 MCP 서버: context7 (~/.cursor/mcp.json)",
+        "자동으로 읽힐 수 있는 지침 파일: ~/.agents"
+      ],
+      "submittedAt": "2026-11-15T16:50:34.194Z",
+      "elapsedMinutes": 30.8,
+      "overLimit": true
+    },
+    "mcp": {
+      "tool": "Cursor",
+      "setupAt": "2026-11-15T17:01:29.046Z",
+      "limitMinutes": 20,
+      "warnings": [
+        "켜져 있는 다른 MCP 서버: context7 (~/.cursor/mcp.json)",
+        "자동으로 읽힐 수 있는 지침 파일: ~/.agents"
+      ],
+      "submittedAt": "2026-11-15T17:16:20.961Z",
+      "elapsedMinutes": 14.9,
+      "overLimit": false
+    }
+  }
+}

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!--/* 제목·작성자·내용 입력 (th:object="${boardVO}" 인 form 안에서 사용) */-->
+<th:block th:fragment="fields">
+    <input type="hidden" th:field="*{searchCondition}">
+    <input type="hidden" th:field="*{searchKeyword}">
+    <input type="hidden" th:field="*{pageIndex}">
+
+    <p class="form-required-guide"><span class="required" aria-hidden="true">*</span> 표시는 필수 입력 항목입니다.</p>
+
+    <div class="fieldset">
+        <div class="form-group">
+            <div class="form-tit">
+                <label for="title">제목 <span class="required" aria-hidden="true">*</span><span class="sr-only">(필수)</span></label>
+            </div>
+            <div class="form-conts">
+                <input type="text" class="krds-input" th:field="*{title}" maxlength="200" required
+                       th:classappend="${#fields.hasErrors('title')} ? 'is-error'"
+                       th:attr="aria-invalid=${#fields.hasErrors('title')}, aria-describedby=${#fields.hasErrors('title')} ? 'title-error' : 'title-hint'"
+                       placeholder="제목을 입력해 주세요">
+            </div>
+            <p class="form-hint-invalid" id="title-error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">오류</p>
+            <p class="form-hint" id="title-hint" th:unless="${#fields.hasErrors('title')}">200자 이내로 입력해 주세요.</p>
+        </div>
+
+        <div class="form-group">
+            <div class="form-tit">
+                <label for="writer">작성자 <span class="required" aria-hidden="true">*</span><span class="sr-only">(필수)</span></label>
+            </div>
+            <div class="form-conts">
+                <input type="text" class="krds-input" th:field="*{writer}" maxlength="50" required
+                       th:classappend="${#fields.hasErrors('writer')} ? 'is-error'"
+                       th:attr="aria-invalid=${#fields.hasErrors('writer')}, aria-describedby=${#fields.hasErrors('writer')} ? 'writer-error' : 'writer-hint'"
+                       placeholder="작성자를 입력해 주세요">
+            </div>
+            <p class="form-hint-invalid" id="writer-error" th:if="${#fields.hasErrors('writer')}" th:errors="*{writer}">오류</p>
+            <p class="form-hint" id="writer-hint" th:unless="${#fields.hasErrors('writer')}">50자 이내로 입력해 주세요.</p>
+        </div>
+
+        <div class="form-group">
+            <div class="form-tit">
+                <label for="content">내용</label>
+            </div>
+            <div class="form-conts">
+                <div class="textarea-wrap">
+                    <textarea class="krds-input board-textarea" th:field="*{content}" maxlength="4000"
+                              th:classappend="${#fields.hasErrors('content')} ? 'is-error'"
+                              aria-describedby="content-count" placeholder="내용을 입력해 주세요"></textarea>
+                    <p class="textarea-count" id="content-count">
+                        <span class="count-now" data-count-for="content">0</span><span class="count-total">/4000</span>
+                    </p>
+                </div>
+            </div>
+            <p class="form-hint-invalid" th:if="${#fields.hasErrors('content')}" th:errors="*{content}">오류</p>
+        </div>
+    </div>
+</th:block>
+
+<!--/* KRDS 파일 업로드: 새로 첨부할 파일 선택 영역 */-->
+<th:block th:fragment="fileUpload(existingCount)">
+    <div class="krds-file-upload line" data-file-upload
+         th:attr="data-accept=${filePolicy.accept}, data-max-count=${filePolicy.maxCount}, data-max-size=${filePolicy.maxSize}, data-existing-count=${existingCount}">
+        <div class="file-head">
+            <h3 class="tit">첨부파일 추가</h3>
+            <div>
+                <p th:text="|파일당 ${filePolicy.maxSizeText} 이하, 게시물당 최대 ${filePolicy.maxCount}개까지 첨부할 수 있습니다.|">안내</p>
+                <p class="file-ext-guide" th:text="|첨부 가능 형식: ${#strings.replace(filePolicy.accept, '.', '')}|">형식</p>
+            </div>
+        </div>
+        <div class="file-upload" data-drop-zone>
+            <p class="txt">첨부할 파일을 여기에 끌어다 놓거나, 파일 선택 버튼을 눌러 파일을 직접 선택해주세요.</p>
+            <div class="file-upload-btn-wrap">
+                <input type="file" name="files" id="files" multiple class="sr-only" tabindex="-1"
+                       th:attr="accept=${filePolicy.accept}" aria-hidden="true">
+                <button type="button" class="krds-btn medium" data-file-select>
+                    <i class="svg-icon ico-upload" aria-hidden="true"></i>파일선택
+                </button>
+            </div>
+        </div>
+        <div class="file-list">
+            <div class="total" aria-live="polite">
+                <span class="current" data-file-total th:text="|${existingCount}개|">0개</span> / <span th:text="|${filePolicy.maxCount}개|">10개</span>
+            </div>
+            <ul class="upload-list" data-file-list></ul>
+            <p class="file-hint-invalid" data-file-error hidden></p>
+        </div>
+    </div>
+</th:block>
+
+</body>
+</html>

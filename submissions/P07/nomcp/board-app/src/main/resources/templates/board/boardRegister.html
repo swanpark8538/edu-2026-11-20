@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('게시물 등록')}"></head>
+<body>
+<div id="wrap">
+    <th:block th:replace="~{fragments/layout :: header}"></th:block>
+
+    <main id="contents" class="board-contents">
+        <div class="inner">
+            <th:block th:replace="~{fragments/layout :: breadcrumb('등록')}"></th:block>
+
+            <h2 class="board-title">게시물 등록</h2>
+
+            <th:block th:replace="~{fragments/layout :: alerts}"></th:block>
+
+            <form id="boardForm" class="board-form" th:action="@{/board/register.do}" th:object="${boardVO}"
+                  method="post" enctype="multipart/form-data">
+                <th:block th:replace="~{board/boardForm :: fields}"></th:block>
+                <th:block th:replace="~{board/boardForm :: fileUpload(0)}"></th:block>
+
+                <div class="board-btn-wrap">
+                    <a class="krds-btn tertiary"
+                       th:href="@{/board/list.do(searchCondition=*{searchCondition},searchKeyword=*{searchKeyword},pageIndex=*{pageIndex})}">목록</a>
+                    <button type="submit" class="krds-btn primary">등록</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <th:block th:replace="~{fragments/layout :: footer}"></th:block>
+</div>
+</body>
+</html>
