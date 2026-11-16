@@ -1,0 +1,27 @@
+{
+  "id": "P00",
+  "tool": "Cline",
+  "model": "openai/gpt-oss-120b (OpenRouter) · Reasoning Effort medium",
+  "platform": "darwin-arm64",
+  "versions": {
+    "node": "22.23.5",
+    "java": "17.0.18",
+    "maven": "3.9.9",
+    "git": "2.50.1",
+    "gh": "2.76.2"
+  },
+  "current": "nomcp",
+  "runs": {
+    "nomcp": {
+      "tool": "Cline",
+      "setupAt": "2026-11-16T05:21:32.344Z",
+      "limitMinutes": 30,
+      "warnings": [
+        "자동으로 읽힐 수 있는 지침 파일: ~/.agents"
+      ],
+      "submittedAt": "2026-11-16T05:38:29.988Z",
+      "elapsedMinutes": 17,
+      "overLimit": false
+    }
+  }
+}
