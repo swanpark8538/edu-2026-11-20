@@ -10,7 +10,7 @@
     "git": "2.50.1",
     "gh": "2.104.0"
   },
-  "current": "nomcp",
+  "current": "mcp",
   "runs": {
     "nomcp": {
       "tool": "Cline",
@@ -21,6 +21,17 @@
       ],
       "submittedAt": "2026-11-17T05:18:00.292Z",
       "elapsedMinutes": 15.3,
+      "overLimit": false
+    },
+    "mcp": {
+      "tool": "Cline",
+      "setupAt": "2026-11-17T05:24:27.235Z",
+      "limitMinutes": 20,
+      "warnings": [
+        "자동으로 읽힐 수 있는 지침 파일: ~/.agents"
+      ],
+      "submittedAt": "2026-11-17T05:29:28.304Z",
+      "elapsedMinutes": 5,
       "overLimit": false
     }
   }
