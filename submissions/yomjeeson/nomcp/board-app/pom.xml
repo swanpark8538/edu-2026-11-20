@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!--
+        주의: 과제 요구는 eGovFrame 5.0 이지만, 이 환경에서는 eGov 저장소에서
+        org.egovframe.rte:*:5.0.0 을 내려받을 수 없어(404) 4.3.0 + Spring Boot 2.7 로 구성했다.
+        5.0 전환 방법은 README.md 참고.
+    -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.7.18</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>egovframework</groupId>
+    <artifactId>board-app</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+    <name>board-app</name>
+    <description>eGovFrame Boot 게시판</description>
+
+    <properties>
+        <java.version>17</java.version>
+        <egovframe.version>4.3.0</egovframe.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>central</id>
+            <url>https://repo.maven.apache.org/maven2</url>
+        </repository>
+        <repository>
+            <id>egovframe</id>
+            <url>https://maven.egovframe.go.kr/maven/</url>
+            <releases><enabled>true</enabled></releases>
+            <snapshots><enabled>false</enabled></snapshots>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <!-- eGovFrame 실행환경 (log4j2 바인딩은 Spring Boot 기본 logback 과 충돌하므로 제외) -->
+        <dependency>
+            <groupId>org.egovframe.rte</groupId>
+            <artifactId>org.egovframe.rte.ptl.mvc</artifactId>
+            <version>${egovframe.version}</version>
+            <exclusions>
+                <exclusion><groupId>org.apache.logging.log4j</groupId><artifactId>log4j-core</artifactId></exclusion>
+                <exclusion><groupId>org.apache.logging.log4j</groupId><artifactId>log4j-slf4j-impl</artifactId></exclusion>
+                <exclusion><groupId>org.slf4j</groupId><artifactId>log4j-over-slf4j</artifactId></exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.egovframe.rte</groupId>
+            <artifactId>org.egovframe.rte.fdl.cmmn</artifactId>
+            <version>${egovframe.version}</version>
+            <exclusions>
+                <exclusion><groupId>org.apache.logging.log4j</groupId><artifactId>log4j-core</artifactId></exclusion>
+                <exclusion><groupId>org.apache.logging.log4j</groupId><artifactId>log4j-slf4j-impl</artifactId></exclusion>
+                <exclusion><groupId>org.slf4j</groupId><artifactId>log4j-over-slf4j</artifactId></exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.egovframe.rte</groupId>
+            <artifactId>org.egovframe.rte.fdl.idgnr</artifactId>
+            <version>${egovframe.version}</version>
+            <exclusions>
+                <exclusion><groupId>org.apache.logging.log4j</groupId><artifactId>log4j-core</artifactId></exclusion>
+                <exclusion><groupId>org.apache.logging.log4j</groupId><artifactId>log4j-slf4j-impl</artifactId></exclusion>
+                <exclusion><groupId>org.slf4j</groupId><artifactId>log4j-over-slf4j</artifactId></exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.egovframe.rte</groupId>
+            <artifactId>org.egovframe.rte.psl.dataaccess</artifactId>
+            <version>${egovframe.version}</version>
+            <exclusions>
+                <exclusion><groupId>org.apache.logging.log4j</groupId><artifactId>log4j-core</artifactId></exclusion>
+                <exclusion><groupId>org.apache.logging.log4j</groupId><artifactId>log4j-slf4j-impl</artifactId></exclusion>
+                <exclusion><groupId>org.slf4j</groupId><artifactId>log4j-over-slf4j</artifactId></exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- Spring Boot -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <version>2.3.2</version>
+        </dependency>
+
+        <!-- 내장 HSQL DB -->
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>

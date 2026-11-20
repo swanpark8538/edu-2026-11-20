@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.board.service.impl.BoardMapper">
+
+    <sql id="searchWhere">
+        <where>
+            <if test="searchKeyword != null and searchKeyword != ''">
+                <choose>
+                    <when test="searchCondition == 'writer'">
+                        B.WRITER LIKE '%' || #{searchKeyword} || '%'
+                    </when>
+                    <when test="searchCondition == 'content'">
+                        B.CONTENT LIKE '%' || #{searchKeyword} || '%'
+                    </when>
+                    <otherwise>
+                        B.TITLE LIKE '%' || #{searchKeyword} || '%'
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+    </sql>
+
+    <select id="selectBoardList" parameterType="egovframework.board.service.BoardVO"
+            resultType="egovframework.board.service.BoardVO">
+        SELECT B.BOARD_ID, B.TITLE, B.WRITER, B.REG_DT,
+               (SELECT COUNT(*) FROM BOARD_FILE F WHERE F.BOARD_ID = B.BOARD_ID) AS FILE_CNT
+          FROM BOARD B
+        <include refid="searchWhere"/>
+         ORDER BY B.BOARD_ID DESC
+         LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+    </select>
+
+    <select id="selectBoardListTotCnt" parameterType="egovframework.board.service.BoardVO" resultType="int">
+        SELECT COUNT(*) FROM BOARD B
+        <include refid="searchWhere"/>
+    </select>
+
+    <select id="selectBoard" parameterType="string" resultType="egovframework.board.service.BoardVO">
+        SELECT BOARD_ID, TITLE, CONTENT, WRITER, REG_DT
+          FROM BOARD
+         WHERE BOARD_ID = #{boardId}
+    </select>
+
+    <insert id="insertBoard" parameterType="egovframework.board.service.BoardVO">
+        INSERT INTO BOARD (BOARD_ID, TITLE, CONTENT, WRITER, REG_DT)
+        VALUES (#{boardId}, #{title}, #{content}, #{writer}, CURRENT_TIMESTAMP)
+    </insert>
+
+    <update id="updateBoard" parameterType="egovframework.board.service.BoardVO">
+        UPDATE BOARD
+           SET TITLE = #{title},
+               CONTENT = #{content},
+               WRITER = #{writer}
+         WHERE BOARD_ID = #{boardId}
+    </update>
+
+    <delete id="deleteBoard" parameterType="string">
+        DELETE FROM BOARD WHERE BOARD_ID = #{boardId}
+    </delete>
+
+    <select id="selectFileList" parameterType="string" resultType="egovframework.board.service.BoardFileVO">
+        SELECT FILE_ID, BOARD_ID, ORIGINAL_NAME, STORED_NAME, FILE_SIZE, CONTENT_TYPE, REG_DT
+          FROM BOARD_FILE
+         WHERE BOARD_ID = #{boardId}
+         ORDER BY FILE_ID
+    </select>
+
+    <select id="selectFile" parameterType="long" resultType="egovframework.board.service.BoardFileVO">
+        SELECT FILE_ID, BOARD_ID, ORIGINAL_NAME, STORED_NAME, FILE_SIZE, CONTENT_TYPE, REG_DT
+          FROM BOARD_FILE
+         WHERE FILE_ID = #{fileId}
+    </select>
+
+    <insert id="insertFile" parameterType="egovframework.board.service.BoardFileVO"
+            useGeneratedKeys="true" keyProperty="fileId" keyColumn="FILE_ID">
+        INSERT INTO BOARD_FILE (BOARD_ID, ORIGINAL_NAME, STORED_NAME, FILE_SIZE, CONTENT_TYPE, REG_DT)
+        VALUES (#{boardId}, #{originalName}, #{storedName}, #{fileSize}, #{contentType}, CURRENT_TIMESTAMP)
+    </insert>
+
+    <delete id="deleteFile" parameterType="long">
+        DELETE FROM BOARD_FILE WHERE FILE_ID = #{fileId}
+    </delete>
+
+    <delete id="deleteFilesByBoard" parameterType="string">
+        DELETE FROM BOARD_FILE WHERE BOARD_ID = #{boardId}
+    </delete>
+</mapper>
