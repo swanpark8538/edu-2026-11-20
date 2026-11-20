@@ -10,7 +10,7 @@
     "git": "2.56.0.windows.4",
     "gh": null
   },
-  "current": "nomcp",
+  "current": "mcp",
   "runs": {
     "nomcp": {
       "tool": "Antigravity",
@@ -19,6 +19,15 @@
       "warnings": [],
       "submittedAt": "2026-11-20T05:36:59.846Z",
       "elapsedMinutes": 7.8,
+      "overLimit": false
+    },
+    "mcp": {
+      "tool": "Antigravity",
+      "setupAt": "2026-11-20T05:59:01.496Z",
+      "limitMinutes": 20,
+      "warnings": [],
+      "submittedAt": "2026-11-20T06:17:38.552Z",
+      "elapsedMinutes": 18.6,
       "overLimit": false
     }
   }
