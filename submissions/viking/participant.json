@@ -1,0 +1,25 @@
+{
+  "id": "viking",
+  "tool": "Claude-Code",
+  "model": "Claude Sonnet 5.5 · medium",
+  "platform": "win32-x64",
+  "versions": {
+    "node": "24.22.0",
+    "java": "27.0.1.1",
+    "maven": "3.10.1",
+    "git": "2.55.0.windows.3",
+    "gh": "2.105.0"
+  },
+  "current": "nomcp",
+  "runs": {
+    "nomcp": {
+      "tool": "Claude-Code",
+      "setupAt": "2026-11-20T05:19:14.933Z",
+      "limitMinutes": 30,
+      "warnings": [],
+      "submittedAt": "2026-11-20T05:51:44.515Z",
+      "elapsedMinutes": 32.5,
+      "overLimit": true
+    }
+  }
+}
