@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${post == null ? '글쓰기' : '게시글 수정'}">글쓰기</title>
+    <link rel="stylesheet" th:href="@{/board.css}">
+</head>
+<body>
+<main>
+    <nav class="breadcrumb"><a th:href="@{/boards}">← 게시판</a></nav>
+    <header class="page-header"><h1 th:text="${post == null ? '글쓰기' : '게시글 수정'}">글쓰기</h1></header>
+    <form class="panel editor" method="post" enctype="multipart/form-data" th:object="${form}"
+          th:action="${post == null} ? @{/boards} : @{/boards/{id}/edit(id=${post.id})}">
+        <div class="field">
+            <label for="title">제목</label>
+            <input id="title" th:field="*{title}" maxlength="200" required>
+            <p class="field-error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
+        </div>
+        <div class="field">
+            <label for="writer">작성자</label>
+            <input id="writer" th:field="*{writer}" maxlength="50" required>
+            <p class="field-error" th:if="${#fields.hasErrors('writer')}" th:errors="*{writer}"></p>
+        </div>
+        <div class="field">
+            <label for="content">본문</label>
+            <textarea id="content" th:field="*{content}" rows="9" maxlength="4000"></textarea>
+            <p class="field-error" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></p>
+        </div>
+        <div class="field">
+            <label for="file">첨부파일</label>
+            <div class="file-box" th:if="${post != null and post.attachmentName != null}">
+                <a th:href="@{/boards/{id}/attachment(id=${post.id})}" th:text="${post.attachmentName}">기존 파일</a>
+                <label class="checkbox"><input type="checkbox" th:field="*{removeAttachment}"> 기존 파일 삭제</label>
+            </div>
+            <input id="file" name="file" type="file" aria-describedby="file-help">
+            <small id="file-help" th:text="${post != null and post.attachmentName != null}
+                    ? '새 파일을 선택하면 기존 파일이 교체됩니다. 최대 10MB까지 첨부할 수 있습니다.'
+                    : '파일 1개를 최대 10MB까지 첨부할 수 있습니다.'"></small>
+            <p class="field-error" th:if="${#fields.hasErrors('file')}" th:errors="*{file}"></p>
+        </div>
+        <div class="actions">
+            <a class="button" th:href="${post == null} ? @{/boards} : @{/boards/{id}(id=${post.id})}">취소</a>
+            <button class="button primary" type="submit">저장</button>
+        </div>
+    </form>
+</main>
+</body>
+</html>

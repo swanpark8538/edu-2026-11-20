@@ -1,0 +1,38 @@
+{
+  "id": "P01",
+  "tool": "Codex",
+  "model": "GPT-6.1 Terra (gpt-6.1-terra) · medium",
+  "platform": "win32-x64",
+  "versions": {
+    "node": "24.15.0",
+    "java": "17.0.21",
+    "maven": "3.9.9",
+    "git": "2.54.0.windows.1",
+    "gh": "2.105.0"
+  },
+  "current": "mcp",
+  "runs": {
+    "nomcp": {
+      "tool": "Codex",
+      "setupAt": "2026-11-20T05:08:08.073Z",
+      "limitMinutes": 30,
+      "warnings": [
+        "켜져 있는 다른 MCP 서버: node_repl (~/.codex/config.toml)"
+      ],
+      "submittedAt": "2026-11-20T05:50:37.293Z",
+      "elapsedMinutes": 42.5,
+      "overLimit": true
+    },
+    "mcp": {
+      "tool": "Codex",
+      "setupAt": "2026-11-20T05:56:13.729Z",
+      "limitMinutes": 20,
+      "warnings": [
+        "켜져 있는 다른 MCP 서버: node_repl (~/.codex/config.toml)"
+      ],
+      "submittedAt": "2026-11-20T06:03:42.978Z",
+      "elapsedMinutes": 7.5,
+      "overLimit": false
+    }
+  }
+}

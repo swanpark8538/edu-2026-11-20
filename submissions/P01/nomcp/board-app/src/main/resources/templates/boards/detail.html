@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${post.title}">게시글</title>
+    <link rel="stylesheet" th:href="@{/board.css}">
+</head>
+<body>
+<main>
+    <nav class="breadcrumb"><a th:href="@{/boards}">← 게시판</a></nav>
+    <article class="panel article">
+        <h1 th:text="${post.title}">제목</h1>
+        <div class="metadata">
+            <span th:text="${post.writer}">작성자</span>
+            <time th:datetime="${post.createdAt}" th:text="${#temporals.format(post.createdAt, 'yyyy.MM.dd HH:mm')}">날짜</time>
+        </div>
+        <p class="post-content" th:text="${post.content}"></p>
+        <div class="file-box" th:if="${post.attachmentName != null}">
+            <span>첨부파일</span>
+            <a th:href="@{/boards/{id}/attachment(id=${post.id})}" th:text="${post.attachmentName}">다운로드</a>
+        </div>
+    </article>
+    <div class="actions">
+        <a class="button" th:href="@{/boards/{id}/edit(id=${post.id})}">수정</a>
+        <form method="post" th:action="@{/boards/{id}/delete(id=${post.id})}" onsubmit="return confirm('게시글을 삭제하시겠습니까?')">
+            <button class="button danger" type="submit">삭제</button>
+        </form>
+    </div>
+</main>
+</body>
+</html>
