@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>게시판</title>
+  <link rel="stylesheet" th:href="@{/board.css}">
+</head>
+<body>
+<main>
+<header><div><a th:href="@{/}">← 목록</a><h1 th:text="${post.title()}"></h1>
+  <p class="muted" th:text="${post.writer()}"></p></div></header>
+<p class="content" th:text="${post.content()}"></p>
+<p th:if="${post.fileName() != null}">첨부파일 <a th:href="@{/posts/{id}/attachment(id=${post.id()})}" th:text="${post.fileName()}"></a></p>
+<div class="actions">
+  <a class="button primary" th:href="@{/posts/{id}/edit(id=${post.id()})}">수정</a>
+  <form method="post" th:action="@{/posts/{id}/delete(id=${post.id()})}" onsubmit="return confirm('게시글을 삭제할까요?')">
+    <button type="submit">삭제</button>
+  </form>
+</div>
+</main>
+</body>
+</html>

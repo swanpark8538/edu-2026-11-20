@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>게시판</title>
+  <link rel="stylesheet" th:href="@{/board.css}">
+</head>
+<body>
+<main>
+<header><div><a th:href="@{/}">← 목록</a><h1 th:text="${post.id() == null ? '글쓰기' : '게시글 수정'}"></h1></div></header>
+<p class="error" role="alert" th:if="${error}" th:text="${error}"></p>
+<form method="post" enctype="multipart/form-data"
+      th:action="${post.id() == null} ? @{/posts} : @{/posts/{id}/edit(id=${post.id()})}">
+  <label>제목 <input name="title" required maxlength="200" th:value="${post.title()}"></label>
+  <label>작성자 <input name="writer" required maxlength="50" th:value="${post.writer()}"></label>
+  <label>내용 <textarea name="content" rows="8" maxlength="4000" th:text="${post.content()}"></textarea></label>
+  <label>첨부파일 (최대 5 MB) <input type="file" name="file"></label>
+  <label class="check" th:if="${post.fileName() != null}">
+    <input type="checkbox" name="removeAttachment" value="true">
+    기존 첨부파일 삭제 (<span th:text="${post.fileName()}"></span>)
+  </label>
+  <div class="actions">
+    <button class="primary" type="submit">저장</button>
+    <a class="button" th:href="${post.id() == null} ? @{/} : @{/posts/{id}(id=${post.id()})}">취소</a>
+  </div>
+</form>
+</main>
+</body>
+</html>

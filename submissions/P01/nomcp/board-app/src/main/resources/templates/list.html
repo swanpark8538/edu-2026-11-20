@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>게시판</title>
+  <link rel="stylesheet" th:href="@{/board.css}">
+</head>
+<body>
+<main>
+<header><div><h1>게시판</h1></div><a class="button primary" th:href="@{/posts/new}">글쓰기</a></header>
+<table>
+  <thead><tr><th scope="col">제목</th><th scope="col">작성자</th></tr></thead>
+  <tbody>
+    <tr th:if="${#lists.isEmpty(posts)}"><td colspan="2">등록된 게시글이 없습니다.</td></tr>
+    <tr th:each="post : ${posts}">
+      <td><a th:href="@{/posts/{id}(id=${post.id()})}" th:text="${post.title()}"></a>
+        <span class="attachment" th:if="${post.fileName() != null}">첨부</span></td>
+      <td th:text="${post.writer()}"></td>
+    </tr>
+  </tbody>
+</table>
+</main>
+</body>
+</html>
