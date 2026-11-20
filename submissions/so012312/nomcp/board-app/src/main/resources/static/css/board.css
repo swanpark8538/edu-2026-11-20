@@ -1,0 +1,77 @@
+@charset "UTF-8";
+
+/* eGovFrame 5.0 Boot 게시판 기본 스타일 */
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: "Malgun Gothic", "맑은 고딕", "Apple SD Gothic Neo", sans-serif;
+    font-size: 14px;
+    color: #2b2b2b;
+    background: #f5f6f8;
+    line-height: 1.5;
+}
+
+.container { width: 940px; max-width: 94%; margin: 0 auto; }
+
+.app-header { background: #1f5aa8; color: #fff; padding: 14px 0; }
+.header-inner { display: flex; align-items: baseline; gap: 12px; }
+.brand { color: #fff; font-size: 20px; font-weight: bold; text-decoration: none; }
+.brand-sub { font-size: 12px; opacity: .85; }
+
+main.container { background: #fff; padding: 24px; margin-top: 20px; margin-bottom: 20px; border: 1px solid #e2e5ea; border-radius: 4px; }
+.app-footer { text-align: center; color: #7b8290; font-size: 12px; padding: 16px 0 32px; }
+
+.page-title { font-size: 20px; margin: 0 0 16px; padding-bottom: 10px; border-bottom: 2px solid #1f5aa8; }
+
+.search-form { display: flex; gap: 6px; justify-content: flex-end; margin-bottom: 10px; }
+.search-form select, .search-form input[type=text] { padding: 6px 8px; border: 1px solid #c9ced6; border-radius: 3px; }
+.search-form input[type=text] { width: 200px; }
+
+table { width: 100%; border-collapse: collapse; }
+.board-table th, .board-table td { border-bottom: 1px solid #e2e5ea; padding: 9px 8px; text-align: center; }
+.board-table thead th { background: #f0f3f7; border-top: 2px solid #1f5aa8; border-bottom: 1px solid #d2d8e0; }
+.board-table .col-title { text-align: left; }
+.board-table .col-title a { color: #21313f; text-decoration: none; }
+.board-table .col-title a:hover { text-decoration: underline; color: #1f5aa8; }
+.board-table .col-no { width: 70px; }
+.board-table .col-writer { width: 100px; }
+.board-table .col-date { width: 140px; }
+.board-table .col-view, .board-table .col-file { width: 70px; }
+.no-data { padding: 40px 0 !important; color: #7b8290; }
+.comment-count { font-size: 11px; color: #1f5aa8; }
+
+.pagination { display: flex; justify-content: center; gap: 4px; list-style: none; padding: 0; margin: 18px 0; }
+.pagination li a { display: block; min-width: 30px; padding: 6px 8px; text-align: center; border: 1px solid #c9ced6; border-radius: 3px; color: #21313f; text-decoration: none; background: #fff; }
+.pagination li.active a { background: #1f5aa8; border-color: #1f5aa8; color: #fff; font-weight: bold; }
+
+.view-table th, .view-table td { border: 1px solid #e2e5ea; padding: 10px 12px; }
+.view-table th { background: #f0f3f7; width: 100px; }
+.view-content { border: 1px solid #e2e5ea; border-top: 0; min-height: 220px; padding: 16px; white-space: pre-wrap; word-break: break-word; }
+
+.atc-file-box { margin-top: 16px; border: 1px dashed #c9ced6; padding: 12px 16px; border-radius: 4px; }
+.atc-file-box h2 { font-size: 15px; margin: 0 0 8px; }
+.atc-file-box ul, .atc-file-list { list-style: none; margin: 0; padding: 0; }
+.atc-file-box li, .atc-file-list li { padding: 3px 0; }
+.atc-size { color: #7b8290; font-size: 12px; margin-left: 6px; }
+.atc-id { color: #aab0ba; font-size: 11px; margin-left: 6px; }
+
+.write-table th, .write-table td { border: 1px solid #e2e5ea; padding: 10px 12px; }
+.write-table th { background: #f0f3f7; width: 120px; text-align: left; }
+.write-table input[type=text], .write-table textarea { padding: 7px 8px; border: 1px solid #c9ced6; border-radius: 3px; font: inherit; }
+.write-table .w100 { width: 100%; }
+
+.button-bar { display: flex; gap: 6px; justify-content: flex-end; margin-top: 16px; }
+.btn { display: inline-block; padding: 8px 16px; border: 1px solid #c9ced6; border-radius: 3px; background: #fff; color: #21313f; font: inherit; text-decoration: none; cursor: pointer; }
+.btn:hover { border-color: #1f5aa8; color: #1f5aa8; }
+.btn-primary { background: #1f5aa8; border-color: #1f5aa8; color: #fff; }
+.btn-primary:hover { background: #1a4d90; color: #fff; }
+.btn-danger { background: #c0392b; border-color: #c0392b; color: #fff; }
+.btn-danger:hover { background: #a5322; color: #fff; }
+
+.alert { padding: 12px 16px; border-radius: 4px; margin-bottom: 14px; }
+.alert-ok { background: #eaf5ea; border: 1px solid #b7dcb7; color: #25602a; }
+.alert-error { background: #fdecea; border: 1px solid #f5b7b1; color: #922b21; }
+.field-error { display: block; color: #c0392b; font-size: 12px; margin-top: 4px; }
+.helper { color: #7b8290; font-size: 12px; margin: 4px 0 0; }
+.blind { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }

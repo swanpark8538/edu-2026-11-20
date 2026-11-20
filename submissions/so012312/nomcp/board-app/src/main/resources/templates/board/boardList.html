@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('게시판 목록')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+
+<main class="container">
+    <h1 class="page-title">게시판 목록</h1>
+
+    <p class="alert alert-ok" th:if="${deletedBoardId != null}"
+       th:text="'게시물을 삭제했습니다. (' + ${deletedBoardId} + ')'"></p>
+
+    <!-- 검색 -->
+    <form class="search-form" method="get" th:action="@{/board}">
+        <select name="searchCond" th:value="${searchVO.searchCond}">
+            <option value="TITLE" th:selected="${searchVO.searchCond == 'TITLE'}">제목</option>
+            <option value="CONTENT" th:selected="${searchVO.searchCond == 'CONTENT'}">내용</option>
+            <option value="WRITER" th:selected="${searchVO.searchCond == 'WRITER'}">글쓴이</option>
+            <option value="TITLE_CONTENT" th:selected="${searchVO.searchCond == 'TITLE_CONTENT'}">제목+내용</option>
+        </select>
+        <input type="text" name="searchWord" th:value="${searchVO.searchWord}" placeholder="검색어"/>
+        <button type="submit" class="btn">검색</button>
+    </form>
+
+    <table class="board-table">
+        <caption class="blind">전체
+            <span th:text="${paginationInfo.totalRecordCount}"></span>건 중
+            <span th:text="${paginationInfo.currentPageNo}"></span>번째 페이지
+        </caption>
+        <thead>
+        <tr>
+            <th class="col-no">번호</th>
+            <th class="col-title">제목</th>
+            <th class="col-writer">글쓴이</th>
+            <th class="col-date">작성일</th>
+            <th class="col-view">조회수</th>
+            <th class="col-file">첨부</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="board : ${boardList}">
+            <td class="col-no" th:text="${#numbers.formatInteger(#strings.substring(board.boardId, 4), 1)}"
+                th:title="${board.boardId}">1</td>
+            <td class="col-title">
+                <a th:href="@{/board/detail(boardId=${board.boardId},
+                                            currentPageNo=${searchVO.currentPageNo},
+                                            searchCond=${searchVO.searchCond},
+                                            searchWord=${searchVO.searchWord})}"
+                   th:text="${board.title}">제목</a>
+                <span class="comment-count" th:if="${board.modDt != null}" th:text=" 수정 "></span>
+            </td>
+            <td class="col-writer" th:text="${board.writer}">글쓴이</td>
+            <td class="col-date" th:text="${board.regDtForView}">2026-11-20 10:00</td>
+            <td class="col-view" th:text="${board.viewCnt}">0</td>
+            <td class="col-file">
+                <span th:if="${board.atcFileNo > 0}" th:text="${board.atcFileNo}">1</span>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(boardList)}">
+            <td class="no-data" colspan="6">등록된 게시물이 없습니다.</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- 페이징 (표준프레임워크 PaginationInfo) -->
+    <ul class="pagination" th:if="${paginationInfo.totalRecordCount > 0}">
+        <li th:if="${paginationInfo.firstPageNoOnPageList > 1}">
+            <a th:href="@{/board(currentPageNo=${paginationInfo.firstPageNoOnPageList - 1},
+                                 searchCond=${searchVO.searchCond}, searchWord=${searchVO.searchWord})}">이전</a>
+        </li>
+        <li th:each="pageNo : ${#numbers.sequence(paginationInfo.firstPageNoOnPageList, paginationInfo.lastPageNoOnPageList)}"
+            th:classappend="${pageNo == paginationInfo.currentPageNo} ? 'active'">
+            <a th:href="@{/board(currentPageNo=${pageNo}, searchCond=${searchVO.searchCond},
+                                 searchWord=${searchVO.searchWord})}"
+               th:text="${pageNo}">1</a>
+        </li>
+        <li th:if="${paginationInfo.lastPageNoOnPageList < paginationInfo.totalPageCount}">
+            <a th:href="@{/board(currentPageNo=${paginationInfo.lastPageNoOnPageList + 1},
+                                 searchCond=${searchVO.searchCond}, searchWord=${searchVO.searchWord})}">다음</a>
+        </li>
+    </ul>
+
+    <div class="button-bar">
+        <a class="btn btn-primary" th:href="@{/board/writeForm}">글쓰기</a>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>
