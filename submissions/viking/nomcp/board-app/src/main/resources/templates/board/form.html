@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title th:text="${board.boardId == null} ? '글쓰기' : '글수정'">글쓰기</title>
+<link rel="stylesheet" th:href="@{/css/board.css}">
+</head>
+<body>
+<div class="wrap">
+	<h1><a th:href="@{/board/list}">게시판</a></h1>
+
+	<form class="card" method="post" enctype="multipart/form-data"
+		  th:action="${board.boardId == null} ? @{/board} : @{/board/{id}(id=${board.boardId})}">
+		<div class="field">
+			<label for="title">제목</label>
+			<input type="text" id="title" name="title" maxlength="200" th:value="${board.title}">
+			<div class="error" th:errors="${board.title}"></div>
+		</div>
+		<div class="field">
+			<label for="writer">작성자</label>
+			<input type="text" id="writer" name="writer" maxlength="50" th:value="${board.writer}">
+			<div class="error" th:errors="${board.writer}"></div>
+		</div>
+		<div class="field">
+			<label for="content">내용</label>
+			<textarea id="content" name="content" maxlength="4000" th:text="${board.content}"></textarea>
+			<div class="error" th:errors="${board.content}"></div>
+		</div>
+
+		<div class="field" th:if="${board.boardId != null and !#lists.isEmpty(board.attachments)}">
+			<label>기존 첨부파일 (체크하면 삭제)</label>
+			<ul class="files">
+				<li th:each="f : ${board.attachments}">
+					<label><input type="checkbox" name="deleteFileIds" th:value="${f.fileId}"> <span th:text="${f.origName}"></span></label>
+				</li>
+			</ul>
+		</div>
+
+		<div class="field">
+			<label for="files">첨부파일 (여러 개 선택 가능, 파일당 10MB 이하)</label>
+			<input type="file" id="files" name="files" multiple>
+		</div>
+
+		<div class="actions">
+			<button type="submit" class="btn">저장</button>
+			<a class="btn sub" th:href="${board.boardId == null} ? @{/board/list} : @{/board/{id}(id=${board.boardId})}">취소</a>
+		</div>
+	</form>
+</div>
+</body>
+</html>

@@ -1,0 +1,33 @@
+* { box-sizing: border-box; }
+body { margin: 0; font-family: "Malgun Gothic", "Apple SD Gothic Neo", sans-serif; color: #222; background: #f5f6f8; }
+.wrap { max-width: 960px; margin: 0 auto; padding: 24px 16px 48px; }
+h1 { font-size: 24px; margin: 0 0 20px; }
+h1 a { color: inherit; text-decoration: none; }
+a { color: #1a56b3; }
+.msg { background: #e6f4ea; border: 1px solid #b7dfc2; padding: 10px 14px; border-radius: 4px; margin-bottom: 16px; }
+.card { background: #fff; border: 1px solid #dde1e6; border-radius: 6px; padding: 20px; }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 10px 8px; border-bottom: 1px solid #e5e8ec; text-align: left; }
+th { background: #f0f2f5; font-size: 14px; }
+td.num, th.num { text-align: center; white-space: nowrap; }
+.toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; gap: 8px; }
+.toolbar form { display: flex; gap: 6px; }
+input[type=text], textarea { width: 100%; padding: 8px; border: 1px solid #c4c9d0; border-radius: 4px; font: inherit; }
+textarea { min-height: 220px; resize: vertical; }
+.btn { display: inline-block; padding: 7px 16px; border: 1px solid #1a56b3; background: #1a56b3; color: #fff; border-radius: 4px; text-decoration: none; cursor: pointer; font: inherit; font-size: 14px; }
+.btn.sub { background: #fff; color: #1a56b3; }
+.btn.danger { background: #c62828; border-color: #c62828; }
+.actions { margin-top: 20px; display: flex; gap: 8px; }
+.actions form { margin: 0; }
+.field { margin-bottom: 16px; }
+.field label { display: block; font-weight: bold; margin-bottom: 6px; }
+.error { color: #c62828; font-size: 13px; margin-top: 4px; }
+.meta { color: #666; font-size: 14px; margin-bottom: 16px; }
+.content { white-space: pre-wrap; padding: 16px 0; min-height: 120px; border-top: 1px solid #e5e8ec; border-bottom: 1px solid #e5e8ec; }
+.files { list-style: none; padding: 0; margin: 12px 0 0; }
+.files li { padding: 4px 0; }
+.size { color: #777; font-size: 13px; }
+.paging { display: flex; justify-content: center; gap: 4px; margin-top: 16px; }
+.paging a, .paging span { padding: 5px 10px; border: 1px solid #dde1e6; background: #fff; border-radius: 4px; text-decoration: none; }
+.paging span.cur { background: #1a56b3; color: #fff; border-color: #1a56b3; }
+.empty { text-align: center; color: #777; padding: 32px 0; }
