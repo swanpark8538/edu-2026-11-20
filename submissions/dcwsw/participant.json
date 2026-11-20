@@ -10,7 +10,7 @@
     "git": "2.56.1.windows.1",
     "gh": "2.105.0"
   },
-  "current": "nomcp",
+  "current": "mcp",
   "runs": {
     "nomcp": {
       "tool": "Cline",
@@ -19,6 +19,15 @@
       "warnings": [],
       "submittedAt": "2026-11-20T05:51:46.135Z",
       "elapsedMinutes": 18.5,
+      "overLimit": false
+    },
+    "mcp": {
+      "tool": "Cline",
+      "setupAt": "2026-11-20T05:57:54.677Z",
+      "limitMinutes": 20,
+      "warnings": [],
+      "submittedAt": "2026-11-20T06:11:11.440Z",
+      "elapsedMinutes": 13.3,
       "overLimit": false
     }
   }
