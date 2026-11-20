@@ -1,0 +1,27 @@
+{
+  "id": "jmketri",
+  "tool": "Cline",
+  "model": "qwen/qwen3.8-flash (OpenRouter) · Reasoning Effort medium",
+  "platform": "win32-x64",
+  "versions": {
+    "node": "26.13.1",
+    "java": "21.0.10",
+    "maven": "3.9.12",
+    "git": "2.49.0.windows.1",
+    "gh": "2.105.0"
+  },
+  "current": "nomcp",
+  "runs": {
+    "nomcp": {
+      "tool": "Cline",
+      "setupAt": "2026-11-20T05:34:24.366Z",
+      "limitMinutes": 30,
+      "warnings": [
+        "자동으로 읽힐 수 있는 지침 파일: ~/.gemini/GEMINI.md"
+      ],
+      "submittedAt": "2026-11-20T05:54:33.090Z",
+      "elapsedMinutes": 20.1,
+      "overLimit": false
+    }
+  }
+}
