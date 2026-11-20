@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('목록')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="container">
+    <div th:replace="~{fragments/layout :: flash}"></div>
+    <h1>게시물 목록</h1>
+
+    <form class="search" th:action="@{/board/list.do}" method="get" th:object="${searchVO}">
+        <select th:field="*{searchCondition}">
+            <option value="TITLE">제목</option>
+            <option value="CONTENT">내용</option>
+            <option value="WRITER">작성자</option>
+        </select>
+        <input type="text" th:field="*{searchKeyword}" placeholder="검색어">
+        <button type="submit">검색</button>
+        <span class="total">총 <strong th:text="${totCnt}">0</strong>건</span>
+    </form>
+
+    <table class="list">
+        <colgroup><col style="width:180px"><col><col style="width:120px"><col style="width:150px"></colgroup>
+        <thead>
+        <tr><th>번호</th><th>제목</th><th>작성자</th><th>등록일</th></tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${resultList}">
+            <td class="center mono" th:text="${item.boardId}"></td>
+            <td>
+                <a th:href="@{/board/{id}/detail.do(id=${item.boardId})}" th:text="${item.title}"></a>
+                <span th:if="${item.fileCnt > 0}" class="badge" th:text="'첨부 ' + ${item.fileCnt}"></span>
+            </td>
+            <td class="center" th:text="${item.writer}"></td>
+            <td class="center" th:text="${#temporals.format(item.regDt, 'yyyy-MM-dd HH:mm')}"></td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(resultList)}">
+            <td colspan="4" class="center empty">게시물이 없습니다.</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <nav class="paging" th:if="${paginationInfo.totalPageCount > 1}">
+        <a th:if="${paginationInfo.firstPageNoOnPageList > 1}"
+           th:href="@{/board/list.do(pageIndex=${paginationInfo.firstPageNoOnPageList - 1},searchCondition=${searchVO.searchCondition},searchKeyword=${searchVO.searchKeyword})}">&laquo;</a>
+        <th:block th:each="p : ${#numbers.sequence(paginationInfo.firstPageNoOnPageList, paginationInfo.lastPageNoOnPageList)}">
+            <strong th:if="${p == paginationInfo.currentPageNo}" th:text="${p}"></strong>
+            <a th:unless="${p == paginationInfo.currentPageNo}" th:text="${p}"
+               th:href="@{/board/list.do(pageIndex=${p},searchCondition=${searchVO.searchCondition},searchKeyword=${searchVO.searchKeyword})}"></a>
+        </th:block>
+        <a th:if="${paginationInfo.lastPageNoOnPageList < paginationInfo.totalPageCount}"
+           th:href="@{/board/list.do(pageIndex=${paginationInfo.lastPageNoOnPageList + 1},searchCondition=${searchVO.searchCondition},searchKeyword=${searchVO.searchKeyword})}">&raquo;</a>
+    </nav>
+
+    <div class="buttons">
+        <a class="btn primary" th:href="@{/board/add.do}">글쓰기</a>
+    </div>
+</main>
+</body>
+</html>

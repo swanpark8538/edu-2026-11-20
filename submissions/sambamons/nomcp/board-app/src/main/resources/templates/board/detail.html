@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(${board.title})}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="container">
+    <div th:replace="~{fragments/layout :: flash}"></div>
+    <h1 th:text="${board.title}">제목</h1>
+    <dl class="meta">
+        <dt>번호</dt><dd class="mono" th:text="${board.boardId}"></dd>
+        <dt>작성자</dt><dd th:text="${board.writer}"></dd>
+        <dt>등록일</dt><dd th:text="${#temporals.format(board.regDt, 'yyyy-MM-dd HH:mm:ss')}"></dd>
+        <th:block th:if="${board.updDt != null}">
+            <dt>수정일</dt><dd th:text="${#temporals.format(board.updDt, 'yyyy-MM-dd HH:mm:ss')}"></dd>
+        </th:block>
+    </dl>
+
+    <div class="content" th:text="${board.content}"></div>
+
+    <section class="files">
+        <h2>첨부파일</h2>
+        <ul th:unless="${#lists.isEmpty(board.files)}">
+            <li th:each="f : ${board.files}">
+                <a th:href="@{/board/file/{id}/download.do(id=${f.fileId})}" th:text="${f.orignlFileNm}"></a>
+                <span class="size" th:text="'(' + ${#numbers.formatDecimal(f.fileSize / 1024.0, 1, 1)} + ' KB)'"></span>
+            </li>
+        </ul>
+        <p th:if="${#lists.isEmpty(board.files)}" class="empty">첨부파일이 없습니다.</p>
+    </section>
+
+    <div class="buttons">
+        <a class="btn" th:href="@{/board/list.do}">목록</a>
+        <a class="btn primary" th:href="@{/board/{id}/edit.do(id=${board.boardId})}">수정</a>
+        <form th:action="@{/board/{id}/delete.do(id=${board.boardId})}" method="post"
+              onsubmit="return confirm('삭제하시겠습니까? 첨부파일도 함께 삭제됩니다.');">
+            <button type="submit" class="btn danger">삭제</button>
+        </form>
+    </div>
+</main>
+</body>
+</html>

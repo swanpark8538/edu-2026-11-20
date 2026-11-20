@@ -1,0 +1,43 @@
+server:
+  port: 8080
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+    session:
+      tracking-modes: cookie
+
+spring:
+  application:
+    name: board-app
+  datasource:
+    # 내장 HSQL DB (메모리 모드, 기동 시 schema.sql / data.sql 로 초기화)
+    url: jdbc:hsqldb:mem:boarddb
+    driver-class-name: org.hsqldb.jdbc.JDBCDriver
+    username: sa
+    password:
+  sql:
+    init:
+      mode: always
+      encoding: UTF-8
+      schema-locations: classpath:db/schema.sql
+      data-locations: classpath:db/data.sql
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 50MB
+  messages:
+    # 게시판 메시지 + eGovFrame RTE 메시지(ID 생성 서비스 등이 사용)
+    basename: messages,messages/message-common,org/egovframe/rte/fdl/idgnr/messages/idgnr
+    encoding: UTF-8
+  thymeleaf:
+    cache: false
+
+board:
+  # 첨부파일 저장 위치 (실행 디렉터리 기준)
+  upload-dir: ./upload
+
+logging:
+  level:
+    egovframework: DEBUG
+    org.egovframe: INFO
