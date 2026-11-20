@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('게시물 작성')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+
+<main class="container">
+    <h1 class="page-title" th:text="${#strings.isEmpty(board.boardId)} ? '새 게시물' : '게시물 수정'">새 게시물</h1>
+
+    <form th:object="${board}" method="post" enctype="multipart/form-data"
+          th:action="${#strings.isEmpty(board.boardId)} ? @{/board/write} : @{/board/edit}">
+        <input type="hidden" th:field="*{boardId}"/>
+
+        <table class="write-table">
+            <tbody>
+            <tr>
+                <th scope="row"><label for="title">제목</label></th>
+                <td>
+                    <input type="text" id="title" th:field="*{title}" maxlength="200" class="w100"/>
+                    <span class="field-error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row"><label for="writer">글쓴이</label></th>
+                <td>
+                    <input type="text" id="writer" th:field="*{writer}" maxlength="50"/>
+                    <span class="field-error" th:if="${#fields.hasErrors('writer')}" th:errors="*{writer}"></span>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row"><label for="content">내용</label></th>
+                <td>
+                    <textarea id="content" th:field="*{content}" rows="12" class="w100"></textarea>
+                    <span class="field-error" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></span>
+                </td>
+            </tr>
+            <tr th:if="${not #lists.isEmpty(board.atcFileList)}">
+                <th scope="row">올린 파일</th>
+                <td>
+                    <ul class="atc-file-list">
+                        <li th:each="atcFile : ${board.atcFileList}">
+                            <label>
+                                <input type="checkbox" name="delAtcFileId" th:value="${atcFile.atcFileId}"/> 삭제
+                            </label>
+                            <a th:href="@{/board/file/download(atcFileId=${atcFile.atcFileId})}"
+                               th:text="${atcFile.fileNm}">파일명</a>
+                            <span class="atc-size" th:text="${atcFile.fileSizeForView}">1 KB</span>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row"><label for="atcFile">첨부파일</label></th>
+                <td>
+                    <input type="file" id="atcFile" name="atcFile" multiple/>
+                    <p class="helper">한 번에 여러 개를 올릴 수 있습니다. 허용 확장자와 최대 크기는 서버 설정을 따릅니다.</p>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="button-bar">
+            <button type="submit" class="btn btn-primary"
+                    th:text="${#strings.isEmpty(board.boardId)} ? '등록' : '수정'">등록</button>
+            <a class="btn" th:href="@{/board}">취소</a>
+        </div>
+    </form>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

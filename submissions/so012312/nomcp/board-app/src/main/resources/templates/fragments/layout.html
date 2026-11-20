@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(pageTitle)">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title th:text="${pageTitle} + ' | eGovFrame 5.0 Boot 게시판'">eGovFrame 5.0 Boot 게시판</title>
+    <link rel="stylesheet" th:href="@{/css/board.css}"/>
+</head>
+<body>
+
+<header th:fragment="header" class="app-header">
+    <div class="container header-inner">
+        <a class="brand" th:href="@{/board}">eGovFrame 5.0 Boot 게시판</a>
+        <span class="brand-sub">Java 17 · Maven · 내장 HSQLDB · MyBatis · 첨부파일</span>
+    </div>
+</header>
+
+<footer th:fragment="footer" class="app-footer">
+    <div class="container">
+        전자정부 표준프레임워크(eGovFrame) 5.0 Boot 기반 실습 게시판 · board-app
+    </div>
+</footer>
+
+</body>
+</html>

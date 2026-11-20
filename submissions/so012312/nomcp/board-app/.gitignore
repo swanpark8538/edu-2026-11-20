@@ -1,0 +1,25 @@
+# Maven
+target/
+*.jar
+!.mvn/wrapper/maven-wrapper.jar
+
+# 실행 중 생성되는 데이터 (내장 HSQLDB 파일·첨부파일)
+data/
+/upload/
+*.script
+*.properties.bak
+*.data
+*.log
+
+# IDE
+.idea/
+*.iml
+.settings/
+.project
+.classpath
+.vscode/
+.factorypath
+
+# OS
+.DS_Store
+Thumbs.db

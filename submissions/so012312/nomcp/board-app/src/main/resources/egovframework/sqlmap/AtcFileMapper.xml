@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="AtcFileMapper">
+
+    <resultMap id="atcFileResultMap" type="egov.board.service.vo.AtcFileVO">
+        <id     property="atcFileId"   column="ATC_FILE_ID"/>
+        <result property="boardId"     column="BOARD_ID"/>
+        <result property="fileNm"      column="FILE_NM"/>
+        <result property="storeFileNm" column="STORE_FILE_NM"/>
+        <result property="filePath"    column="FILE_PATH"/>
+        <result property="fileSize"    column="FILE_SIZE"/>
+        <result property="fileExtsn"   column="FILE_EXTSN"/>
+        <result property="regId"       column="REG_ID"/>
+        <result property="regDt"       column="REG_DT"/>
+    </resultMap>
+
+    <sql id="atcFileColumn">
+        ATC_FILE_ID,
+        BOARD_ID,
+        FILE_NM,
+        STORE_FILE_NM,
+        FILE_PATH,
+        FILE_SIZE,
+        FILE_EXTSN,
+        REG_ID,
+        REG_DT
+    </sql>
+
+    <!-- 첨부파일 등록 -->
+    <insert id="insertAtcFile" parameterType="egov.board.service.vo.AtcFileVO">
+        INSERT INTO ATC_FILE (ATC_FILE_ID, BOARD_ID, FILE_NM, STORE_FILE_NM, FILE_PATH,
+                              FILE_SIZE, FILE_EXTSN, REG_ID, REG_DT)
+        VALUES (#{atcFileId}, #{boardId}, #{fileNm}, #{storeFileNm}, #{filePath},
+                #{fileSize}, #{fileExtsn}, #{regId}, CURRENT_TIMESTAMP)
+    </insert>
+
+    <!-- 게시물의 첨부파일 목록 -->
+    <select id="selectAtcFileList" parameterType="string" resultMap="atcFileResultMap">
+        SELECT
+        <include refid="atcFileColumn"/>
+          FROM ATC_FILE
+         WHERE BOARD_ID = #{boardId}
+         ORDER BY REG_DT, ATC_FILE_ID
+    </select>
+
+    <!-- 첨부파일 한 건 -->
+    <select id="selectAtcFile" parameterType="string" resultMap="atcFileResultMap">
+        SELECT
+        <include refid="atcFileColumn"/>
+          FROM ATC_FILE
+         WHERE ATC_FILE_ID = #{atcFileId}
+    </select>
+
+    <!-- 첨부파일 개수 -->
+    <select id="countAtcFileOfBoard" parameterType="string" resultType="int">
+        SELECT COUNT(*)
+          FROM ATC_FILE
+         WHERE BOARD_ID = #{boardId}
+    </select>
+
+    <!-- 첨부파일 한 건 삭제 -->
+    <delete id="deleteAtcFile" parameterType="string">
+        DELETE FROM ATC_FILE
+         WHERE ATC_FILE_ID = #{atcFileId}
+    </delete>
+
+    <!-- 게시물의 첨부파일 전부 삭제 -->
+    <delete id="deleteAtcFileListOfBoard" parameterType="string">
+        DELETE FROM ATC_FILE
+         WHERE BOARD_ID = #{boardId}
+    </delete>
+
+</mapper>
