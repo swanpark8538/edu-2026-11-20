@@ -1,0 +1,6 @@
+target/
+upload-files/
+*.log
+.idea/
+*.iml
+.vscode/
