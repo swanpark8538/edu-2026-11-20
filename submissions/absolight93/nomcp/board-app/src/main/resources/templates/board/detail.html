@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>게시물 상세 :: eGovFrame 5.0 Boot 게시판</title>
+    <link rel="stylesheet" th:href="@{/css/board.css}">
+</head>
+<body>
+<div class="wrap">
+
+    <header class="head">
+        <h1><a th:href="@{/board/list}">eGovFrame 5.0 Boot 게시판</a></h1>
+    </header>
+
+    <p class="result-msg" th:if="${resultMsg}" th:text="${resultMsg}"></p>
+
+    <article class="detail">
+        <h2 class="detail-title" th:text="${board.title}">제목</h2>
+
+        <dl class="detail-meta">
+            <dt>번호</dt>
+            <dd th:text="${board.boardId}">1</dd>
+            <dt>작성자</dt>
+            <dd th:text="${board.writer}">작성자</dd>
+            <dt>등록일</dt>
+            <dd th:text="${#dates.format(board.createDt, 'yyyy-MM-dd HH:mm')}">2026-01-01 00:00</dd>
+            <dt>수정일</dt>
+            <dd th:text="${board.modifyDt != null} ? ${#dates.format(board.modifyDt, 'yyyy-MM-dd HH:mm')} : '-'">-</dd>
+            <dt>조회</dt>
+            <dd th:text="${board.readcnt}">0</dd>
+        </dl>
+
+        <div class="detail-content" th:text="${board.content}">내용</div>
+
+        <section class="attach">
+            <h3>첨부파일</h3>
+            <ul th:if="${not #lists.isEmpty(board.boardFileList)}">
+                <li th:each="file : ${board.boardFileList}">
+                    <a th:href="@{/board/file/download(atchfileId=${file.atchfileId})}"
+                       th:text="${file.fileOrglnm}">파일명</a>
+                    <span class="size" th:text="${#numbers.formatDecimal(file.fileSize, 1, 0)} + ' bytes'">1024 bytes</span>
+                    <span class="ext" th:if="${file.fileExtsn != null and !file.fileExtsn.isEmpty()}"
+                          th:text="'.' + ${file.fileExtsn}">.txt</span>
+                </li>
+            </ul>
+            <p class="none" th:if="${#lists.isEmpty(board.boardFileList)}">첨부파일이 없습니다.</p>
+        </section>
+    </article>
+
+    <div class="buttons">
+        <a class="btn" th:href="@{/board/list(pageIndex=${param.pageIndex != null} ? ${param.pageIndex[0]} : 1)}">목록</a>
+        <a class="btn primary"
+           th:href="@{/board/edit(boardId=${board.boardId})}">수정</a>
+        <form th:action="@{/board/delete}" method="post" class="inline"
+              onsubmit="return confirm('이 게시물을 삭제하시겠습니까?');">
+            <input type="hidden" name="boardId" th:value="${board.boardId}">
+            <button type="submit" class="btn danger">삭제</button>
+        </form>
+    </div>
+
+</div>
+</body>
+</html>

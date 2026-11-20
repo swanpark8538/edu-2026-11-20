@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.example.board.persist.BoardFileMapper">
+
+    <sql id="boardFileColumns">
+        ATCHFILE_ID, BOARD_ID, FILE_ORGLNM, FILE_STRE_NM, FILE_EXTSN, FILE_SIZE, FILE_STRE_PATH, CREATE_DT
+    </sql>
+
+    <!-- 등록 -->
+    <insert id="insertBoardFile" parameterType="boardFileVO">
+        INSERT INTO BOARD_FILE (ATCHFILE_ID, BOARD_ID, FILE_ORGLNM, FILE_STRE_NM, FILE_EXTSN, FILE_SIZE,
+                                FILE_STRE_PATH, CREATE_DT)
+        VALUES (#{atchfileId}, #{boardId}, #{fileOrglnm}, #{fileStreNm}, #{fileExtsn}, #{fileSize},
+                #{fileStrePath}, CURRENT_TIMESTAMP)
+    </insert>
+
+    <!-- 게시물별 첨부파일 목록 -->
+    <select id="selectBoardFileList" parameterType="string" resultType="boardFileVO">
+        SELECT
+        <include refid="boardFileColumns"/>
+        FROM BOARD_FILE
+        WHERE BOARD_ID = #{boardId}
+        ORDER BY CREATE_DT, ATCHFILE_ID
+    </select>
+
+    <!-- 첨부파일 상세 -->
+    <select id="selectBoardFile" parameterType="string" resultType="boardFileVO">
+        SELECT
+        <include refid="boardFileColumns"/>
+        FROM BOARD_FILE
+        WHERE ATCHFILE_ID = #{atchfileId}
+    </select>
+
+    <!-- 첨부파일 단건 삭제 -->
+    <delete id="deleteBoardFile" parameterType="string">
+        DELETE
+        FROM BOARD_FILE
+        WHERE ATCHFILE_ID = #{atchfileId}
+    </delete>
+
+    <!-- 게시물 삭제 시 첨부파일 일괄 삭제 -->
+    <delete id="deleteBoardFileByBoardId" parameterType="string">
+        DELETE
+        FROM BOARD_FILE
+        WHERE BOARD_ID = #{boardId}
+    </delete>
+
+</mapper>

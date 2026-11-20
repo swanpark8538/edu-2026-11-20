@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>eGovFrame 5.0 Boot 게시판</title>
+    <link rel="stylesheet" th:href="@{/css/board.css}">
+</head>
+<body>
+<div class="wrap">
+
+    <header class="head">
+        <h1><a th:href="@{/board/list}">eGovFrame 5.0 Boot 게시판</a></h1>
+        <p class="meta">Spring Boot 3.5 · eGovFrame RTE 5.0 · MyBatis · 내장 HSQLDB</p>
+    </header>
+
+    <p class="result-msg" th:if="${resultMsg}" th:text="${resultMsg}"></p>
+
+    <form class="search" id="search" th:action="@{/board/list}" method="get">
+        <select name="searchCon" aria-label="검색 조건">
+            <option value="TITLE" th:selected="${boardSearchVO.searchCon == 'TITLE'}">제목</option>
+            <option value="CONTENT" th:selected="${boardSearchVO.searchCon == 'CONTENT'}">내용</option>
+            <option value="WRITER" th:selected="${boardSearchVO.searchCon == 'WRITER'}">작성자</option>
+            <option value="TITLE_CONTENT" th:selected="${boardSearchVO.searchCon == null or boardSearchVO.searchCon == 'TITLE_CONTENT'}">제목+내용</option>
+        </select>
+        <input type="text" name="searchWd" th:value="${boardSearchVO.searchWd}" placeholder="검색어를 입력하세요">
+        <button type="submit">검색</button>
+        <button type="button" class="ghost" onclick="location.href=document.getElementById('search').getAttribute('action')">
+            초기화
+        </button>
+        <a class="btn primary write" th:href="@{/board/write}">새 글 쓰기</a>
+    </form>
+
+    <table class="grid">
+        <colgroup>
+            <col class="c-no">
+            <col>
+            <col class="c-writer">
+            <col class="c-date">
+            <col class="c-read">
+        </colgroup>
+        <thead>
+        <tr>
+            <th scope="col">번호</th>
+            <th scope="col">제목</th>
+            <th scope="col">작성자</th>
+            <th scope="col">등록일</th>
+            <th scope="col">조회</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="board : ${boardList}">
+            <td th:text="${board.boardId}">1</td>
+            <td class="title">
+                <a th:href="@{/board/detail(boardId=${board.boardId}, pageIndex=${paginationInfo.currentPageNo})}"
+                   th:text="${board.title}">제목</a>
+                <span class="badge" th:if="${board.atchfileCount > 0}"
+                      th:text="'첨부 ' + ${board.atchfileCount}">첨부 1</span>
+                <span class="reply" th:if="${board.modifyDt != null}">수정됨</span>
+            </td>
+            <td th:text="${board.writer}">작성자</td>
+            <td th:text="${#dates.format(board.createDt, 'yyyy-MM-dd')}">2026-01-01</td>
+            <td th:text="${board.readcnt}">0</td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(boardList)}">
+            <td colspan="5" class="empty">등록된 게시물이 없습니다.</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <nav class="paging" th:if="${paginationInfo.totalPageCount > 1}">
+        <a th:href="@{/board/list(pageIndex=${paginationInfo.firstPageNo}, searchCon=${boardSearchVO.searchCon}, searchWd=${boardSearchVO.searchWd})}">&laquo;</a>
+        <a th:if="${paginationInfo.firstPageNoOnPageList > 1}"
+           th:href="@{/board/list(pageIndex=${paginationInfo.firstPageNoOnPageList - 1}, searchCon=${boardSearchVO.searchCon}, searchWd=${boardSearchVO.searchWd})}">&lsaquo;</a>
+
+        <span th:each="p : ${#numbers.sequence(paginationInfo.firstPageNoOnPageList, paginationInfo.lastPageNoOnPageList)}">
+            <a th:if="${p == paginationInfo.currentPageNo}" class="cur"
+               th:href="@{/board/list(pageIndex=${p}, searchCon=${boardSearchVO.searchCon}, searchWd=${boardSearchVO.searchWd})}"
+               th:text="${p}">1</a>
+            <a th:unless="${p == paginationInfo.currentPageNo}"
+               th:href="@{/board/list(pageIndex=${p}, searchCon=${boardSearchVO.searchCon}, searchWd=${boardSearchVO.searchWd})}"
+               th:text="${p}">2</a>
+        </span>
+
+        <a th:if="${paginationInfo.lastPageNoOnPageList < paginationInfo.totalPageCount}"
+           th:href="@{/board/list(pageIndex=${paginationInfo.lastPageNoOnPageList + 1}, searchCon=${boardSearchVO.searchCon}, searchWd=${boardSearchVO.searchWd})}">&rsaquo;</a>
+        <a th:href="@{/board/list(pageIndex=${paginationInfo.lastPageNo}, searchCon=${boardSearchVO.searchCon}, searchWd=${boardSearchVO.searchWd})}">&raquo;</a>
+    </nav>
+
+    <p class="total">전체 <strong th:text="${paginationInfo.totalRecordCount}">0</strong>건</p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,12 @@
+# ---------------------------------------------------------------
+# HSQLDB 파일 저장소 프로필
+#   기동: mvn spring-boot:run -Dspring-boot.run.profiles=filedb
+#   데이터가 ./data/egovboard.* 파일에 유지된다.
+# ---------------------------------------------------------------
+spring:
+  datasource:
+    url: "jdbc:hsqldb:file:./data/egovboard;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;shutdown=true"
+  sql:
+    init:
+      # 테이블이 이미 있으면 다시 만들지 않도록 filedb 프로필에서는 never 로 둔다.
+      mode: never

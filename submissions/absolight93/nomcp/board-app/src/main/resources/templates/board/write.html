@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>게시물 작성 :: eGovFrame 5.0 Boot 게시판</title>
+    <link rel="stylesheet" th:href="@{/css/board.css}">
+</head>
+<body>
+<div class="wrap">
+
+    <header class="head">
+        <h1><a th:href="@{/board/list}">eGovFrame 5.0 Boot 게시판</a></h1>
+    </header>
+
+    <form class="write-form" th:action="@{/board/create}" th:object="${boardVO}"
+          method="post" enctype="multipart/form-data">
+
+        <fieldset>
+            <legend>게시물 작성</legend>
+
+            <div class="field">
+                <label for="writer">작성자</label>
+                <input type="text" id="writer" th:field="*{writer}" maxlength="50"
+                       placeholder="작성자명을 입력하세요">
+                <span class="field-error" th:if="${#fields.hasErrors('writer')}" th:errors="*{writer}">오류</span>
+            </div>
+
+            <div class="field">
+                <label for="title">제목</label>
+                <input type="text" id="title" th:field="*{title}" maxlength="200"
+                       placeholder="제목을 입력하세요">
+                <span class="field-error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">오류</span>
+            </div>
+
+            <div class="field">
+                <label for="content">내용</label>
+                <textarea id="content" th:field="*{content}" rows="12" maxlength="4000"
+                          placeholder="내용을 입력하세요"></textarea>
+                <span class="field-error" th:if="${#fields.hasErrors('content')}" th:errors="*{content}">오류</span>
+            </div>
+
+            <div class="field">
+                <label for="files">첨부파일 <span class="hint">(최대 10MB / 다중 선택 가능)</span></label>
+                <input type="file" id="files" name="files" multiple>
+                <span class="hint">비워두면 첨부파일 없이 등록됩니다.</span>
+            </div>
+        </fieldset>
+
+        <div class="buttons">
+            <a class="btn" th:href="@{/board/list}">취소</a>
+            <button type="submit" class="btn primary">등록</button>
+        </div>
+
+    </form>
+
+</div>
+</body>
+</html>

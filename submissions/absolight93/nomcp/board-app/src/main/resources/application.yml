@@ -1,0 +1,84 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+    # 리다이렉트 URL 에 ;jsessionid 가 붙지 않도록 쿠키만 사용한다.
+    session:
+      tracking-modes: cookie
+
+spring:
+  application:
+    name: board-app
+
+  # ---------------------------------------------------------------
+  # 내장 HSQLDB (in-memory) : 기동 시 db/schema.sql, db/data.sql 자동 실행
+  #   파일 기반으로 전환하려면 -Dspring.profiles.active=filedb
+  # ---------------------------------------------------------------
+  datasource:
+    driver-class-name: org.hsqldb.jdbc.JDBCDriver
+    url: "jdbc:hsqldb:mem:egovboard;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE"
+    username: sa
+    password: ""
+    hikari:
+      pool-name: EgovBoardPool
+      maximum-pool-size: 10
+      connection-timeout: 30000
+  sql:
+    init:
+      mode: always
+      encoding: UTF-8
+      schema-locations: classpath:db/schema.sql
+      data-locations: classpath:db/data.sql
+
+  # ---------------------------------------------------------------
+  # 첨부파일 업로드
+  # ---------------------------------------------------------------
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 30MB
+      file-size-threshold: 2KB
+
+  thymeleaf:
+    cache: false
+    encoding: UTF-8
+    mode: HTML
+
+  messages:
+    # 실제 MessageSource 빈은 EgovCoreConfiguration 에서 FDL 메시지 번들과 함께 등록한다.
+    encoding: UTF-8
+
+# ---------------------------------------------------------------
+# MyBatis
+# ---------------------------------------------------------------
+mybatis:
+  mapper-locations: classpath:mapper/**/*.xml
+  type-aliases-package: egovframework.example.board.service.vo
+  configuration:
+    map-underscore-to-camel-case: true
+    call-setters-on-nulls: true
+    default-statement-timeout: 10
+
+# ---------------------------------------------------------------
+# 게시판 애플리케이션 설정
+# ---------------------------------------------------------------
+egov:
+  board:
+    # 첨부파일 저장 경로 (상대경로면 실행 위치 기준)
+    attach-path: ./upload-files
+    # 목록 페이징
+    record-count-per-page: 10
+    page-size: 10
+
+logging:
+  level:
+    root: info
+    egovframework.example.board: debug
+    org.egovframe.rte: info
+    # SQL 로그 확인이 필요할 때 주석 해제
+    # egovframework.example.board.persist: debug

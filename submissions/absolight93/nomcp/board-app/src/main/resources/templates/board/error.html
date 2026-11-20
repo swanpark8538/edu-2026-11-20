@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>오류 :: eGovFrame 5.0 Boot 게시판</title>
+    <link rel="stylesheet" th:href="@{/css/board.css}">
+</head>
+<body>
+<div class="wrap">
+
+    <header class="head">
+        <h1><a th:href="@{/board/list}">eGovFrame 5.0 Boot 게시판</a></h1>
+    </header>
+
+    <section class="error-box">
+        <h2>처리 중 오류가 발생하였습니다.</h2>
+        <dl>
+            <dt>오류 코드</dt>
+            <dd th:text="${errorCode}">error.common.system</dd>
+            <dt>오류 메시지</dt>
+            <dd th:text="${errorMsg}">메시지</dd>
+            <dt>요청 URI</dt>
+            <dd th:text="${requestUri}">/board/list</dd>
+        </dl>
+        <div class="buttons">
+            <a class="btn primary" th:href="@{/board/list}">목록으로</a>
+        </div>
+    </section>
+
+</div>
+</body>
+</html>

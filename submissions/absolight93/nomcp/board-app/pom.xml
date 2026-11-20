@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- 전자정부 표준프레임워크 5.0 Boot Parent (Spring Boot 3.5.6 / Java 17 관리) -->
+    <parent>
+        <groupId>org.egovframe.boot</groupId>
+        <artifactId>egovframe-boot-starter-parent</artifactId>
+        <version>5.0.0</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>org.egovframe.rte</groupId>
+    <artifactId>board-app</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+    <name>board-app</name>
+    <description>eGovFrame 5.0 Boot 기반 게시판 (첨부파일 / 내장 HSQLDB)</description>
+
+    <properties>
+        <java.version>17</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <egovframe.rte.version>5.0.0</egovframe.rte.version>
+        <mybatis.starter.version>3.0.4</mybatis.starter.version>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>egovframe</id>
+            <url>https://oss.egovframe.go.kr/repository/maven-public/</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Spring Boot ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ eGovFrame RTE ~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+        <!-- FDL-CMMN : EgovAbstractServiceImpl / EgovBizException / LeaveaTrace -->
+        <!-- eGovFrame 이 가져오는 log4j 프로바이더는 제외하고 Spring Boot 기본 Logback 을 사용한다 -->
+        <dependency>
+            <groupId>org.egovframe.rte</groupId>
+            <artifactId>egovframe-rte-fdl-cmmn</artifactId>
+            <version>${egovframe.rte.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.logging.log4j</groupId>
+                    <artifactId>log4j-slf4j2-impl</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.logging.log4j</groupId>
+                    <artifactId>log4j-core</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- FDL-IDGNR : BOARD_ID, ATCHFILE_ID 채번 (EgovTableIdGnrServiceImpl) -->
+        <dependency>
+            <groupId>org.egovframe.rte</groupId>
+            <artifactId>egovframe-rte-fdl-idgnr</artifactId>
+            <version>${egovframe.rte.version}</version>
+        </dependency>
+        <!-- FDL-FILEHANDLING : 첨부파일 유틸리티 (EgovFileUtil) -->
+        <dependency>
+            <groupId>org.egovframe.rte</groupId>
+            <artifactId>egovframe-rte-fdl-filehandling</artifactId>
+            <version>${egovframe.rte.version}</version>
+        </dependency>
+        <!-- PTL-MVC : 게시판 목록 페이징 (PaginationInfo) -->
+        <dependency>
+            <groupId>org.egovframe.rte</groupId>
+            <artifactId>egovframe-rte-ptl-mvc</artifactId>
+            <version>${egovframe.rte.version}</version>
+        </dependency>
+
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Persistence ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <version>${mybatis.starter.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Test ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

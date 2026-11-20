@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.example.board.persist.BoardMapper">
+
+    <sql id="boardSearchCondition">
+        <where>
+            <if test="searchWd != null and searchWd != ''">
+                <choose>
+                    <when test='searchCon == "TITLE"'>
+                        AND UPPER(TITLE) LIKE UPPER('%' || #{searchWd} || '%')
+                    </when>
+                    <when test='searchCon == "CONTENT"'>
+                        AND UPPER(COALESCE(CONTENT, ' ')) LIKE UPPER('%' || #{searchWd} || '%')
+                    </when>
+                    <when test='searchCon == "WRITER"'>
+                        AND UPPER(WRITER) LIKE UPPER('%' || #{searchWd} || '%')
+                    </when>
+                    <otherwise>
+                        AND (UPPER(TITLE) LIKE UPPER('%' || #{searchWd} || '%')
+                        OR UPPER(COALESCE(CONTENT, ' ')) LIKE UPPER('%' || #{searchWd} || '%'))
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+    </sql>
+
+    <!-- 목록 건수 -->
+    <select id="countBoardList" parameterType="boardSearchVO" resultType="int">
+        SELECT COUNT(*)
+        FROM BOARD
+        <include refid="boardSearchCondition"/>
+    </select>
+
+    <!-- 목록 (검색 + 페이징) -->
+    <select id="selectBoardList" parameterType="boardSearchVO" resultType="boardVO">
+        SELECT B.BOARD_ID,
+               B.TITLE,
+               B.CONTENT,
+               B.WRITER,
+               B.READCNT,
+               B.CREATE_DT,
+               B.MODIFY_DT,
+               (SELECT COUNT(*) FROM BOARD_FILE F WHERE F.BOARD_ID = B.BOARD_ID) AS ATCHFILE_COUNT
+        FROM BOARD B
+        <include refid="boardSearchCondition"/>
+        ORDER BY B.CREATE_DT DESC, B.BOARD_ID DESC
+        OFFSET #{firstRecordIndex} ROWS FETCH FIRST #{recordCountPerPage} ROWS ONLY
+    </select>
+
+    <!-- 상세 -->
+    <select id="selectBoard" parameterType="string" resultType="boardVO">
+        SELECT BOARD_ID,
+               TITLE,
+               CONTENT,
+               WRITER,
+               READCNT,
+               CREATE_DT,
+               MODIFY_DT
+        FROM BOARD
+        WHERE BOARD_ID = #{boardId}
+    </select>
+
+    <!-- 조회 수 증가 -->
+    <update id="updateBoardReadcnt" parameterType="string">
+        UPDATE BOARD
+        SET READCNT = READCNT + 1
+        WHERE BOARD_ID = #{boardId}
+    </update>
+
+    <!-- 등록 -->
+    <insert id="insertBoard" parameterType="boardVO">
+        INSERT INTO BOARD (BOARD_ID, TITLE, CONTENT, WRITER, READCNT, CREATE_DT)
+        VALUES (#{boardId}, #{title}, #{content}, #{writer}, 0, CURRENT_TIMESTAMP)
+    </insert>
+
+    <!-- 수정 (작성자는 변경하지 않는다) -->
+    <update id="updateBoard" parameterType="boardVO">
+        UPDATE BOARD
+        SET TITLE     = #{title},
+            CONTENT   = #{content},
+            MODIFY_DT = CURRENT_TIMESTAMP
+        WHERE BOARD_ID = #{boardId}
+    </update>
+
+    <!-- 삭제 -->
+    <delete id="deleteBoard" parameterType="string">
+        DELETE
+        FROM BOARD
+        WHERE BOARD_ID = #{boardId}
+    </delete>
+
+</mapper>
