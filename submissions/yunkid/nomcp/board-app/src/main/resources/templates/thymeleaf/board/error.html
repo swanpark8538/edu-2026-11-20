@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>오류</title>
+    <link rel="stylesheet" th:href="@{/css/board.css}"/>
+</head>
+<body>
+<header class="top">
+    <div class="wrap">
+        <h1><a th:href="@{/boardList.do}">게시판</a></h1>
+    </div>
+</header>
+<main class="wrap panel">
+    <h2>요청을 처리하지 못했습니다.</h2>
+    <p class="error" th:text="${exception.cause != null and exception.cause.message != null} ? ${exception.cause.message} : ${exception.message}">오류</p>
+    <div class="actions">
+        <a class="button secondary" th:href="@{/boardList.do}">목록</a>
+    </div>
+</main>
+</body>
+</html>

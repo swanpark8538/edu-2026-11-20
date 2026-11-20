@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.board.service.impl.BoardFileMapper">
+
+    <select id="selectBoardFileList" parameterType="string" resultType="egovframework.board.service.BoardFileVO">
+        SELECT
+            FILE_ID,
+            BOARD_ID,
+            FILE_SN,
+            ORG_FILE_NM,
+            SAVE_FILE_NM,
+            FILE_PATH,
+            FILE_SIZE,
+            CONTENT_TYPE
+        FROM BOARD_FILE
+        WHERE BOARD_ID = #{boardId}
+        ORDER BY FILE_SN
+    </select>
+
+    <select id="selectBoardFile" parameterType="string" resultType="egovframework.board.service.BoardFileVO">
+        SELECT
+            FILE_ID,
+            BOARD_ID,
+            FILE_SN,
+            ORG_FILE_NM,
+            SAVE_FILE_NM,
+            FILE_PATH,
+            FILE_SIZE,
+            CONTENT_TYPE
+        FROM BOARD_FILE
+        WHERE FILE_ID = #{fileId}
+    </select>
+
+    <select id="selectNextFileSn" parameterType="string" resultType="int">
+        SELECT COALESCE(MAX(FILE_SN), 0) + 1
+        FROM BOARD_FILE
+        WHERE BOARD_ID = #{boardId}
+    </select>
+
+    <insert id="insertBoardFile" parameterType="egovframework.board.service.BoardFileVO">
+        INSERT INTO BOARD_FILE (
+            FILE_ID, BOARD_ID, FILE_SN, ORG_FILE_NM, SAVE_FILE_NM, FILE_PATH, FILE_SIZE, CONTENT_TYPE
+        ) VALUES (
+            #{fileId}, #{boardId}, #{fileSn}, #{orgFileNm}, #{saveFileNm}, #{filePath}, #{fileSize}, #{contentType}
+        )
+    </insert>
+
+    <delete id="deleteBoardFile" parameterType="string">
+        DELETE FROM BOARD_FILE
+         WHERE FILE_ID = #{fileId}
+    </delete>
+
+    <delete id="deleteBoardFileByBoardId" parameterType="string">
+        DELETE FROM BOARD_FILE
+         WHERE BOARD_ID = #{boardId}
+    </delete>
+
+</mapper>

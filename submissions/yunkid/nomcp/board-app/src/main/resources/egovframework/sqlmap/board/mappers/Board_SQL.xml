@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.board.service.impl.BoardMapper">
+
+    <sql id="searchCondition">
+        <if test="searchKeyword != null and searchKeyword != ''">
+            <choose>
+                <when test="searchCondition == 'writer'">
+                    AND UPPER(B.WRITER) LIKE '%' || UPPER(#{searchKeyword}) || '%'
+                </when>
+                <when test="searchCondition == 'content'">
+                    AND UPPER(B.CONTENT) LIKE '%' || UPPER(#{searchKeyword}) || '%'
+                </when>
+                <otherwise>
+                    AND UPPER(B.TITLE) LIKE '%' || UPPER(#{searchKeyword}) || '%'
+                </otherwise>
+            </choose>
+        </if>
+    </sql>
+
+    <select id="selectBoardList" parameterType="egovframework.board.service.BoardVO"
+            resultType="egovframework.board.service.BoardVO">
+        SELECT
+            B.BOARD_ID,
+            B.TITLE,
+            B.WRITER,
+            B.REG_DT,
+            (SELECT COUNT(*) FROM BOARD_FILE F WHERE F.BOARD_ID = B.BOARD_ID) AS FILE_CNT
+        FROM BOARD B
+        WHERE 1 = 1
+        <include refid="searchCondition"/>
+        ORDER BY B.REG_DT DESC, B.BOARD_ID DESC
+        OFFSET #{firstIndex} ROWS
+        FETCH NEXT #{recordCountPerPage} ROWS ONLY
+    </select>
+
+    <select id="selectBoardListTotCnt" parameterType="egovframework.board.service.BoardVO" resultType="int">
+        SELECT COUNT(*)
+        FROM BOARD B
+        WHERE 1 = 1
+        <include refid="searchCondition"/>
+    </select>
+
+    <select id="selectBoard" parameterType="egovframework.board.service.BoardVO"
+            resultType="egovframework.board.service.BoardVO">
+        SELECT
+            B.BOARD_ID,
+            B.TITLE,
+            B.CONTENT,
+            B.WRITER,
+            B.REG_DT,
+            (SELECT COUNT(*) FROM BOARD_FILE F WHERE F.BOARD_ID = B.BOARD_ID) AS FILE_CNT
+        FROM BOARD B
+        WHERE B.BOARD_ID = #{boardId}
+    </select>
+
+    <insert id="insertBoard" parameterType="egovframework.board.service.BoardVO">
+        INSERT INTO BOARD (
+            BOARD_ID, TITLE, CONTENT, WRITER, REG_DT
+        ) VALUES (
+            #{boardId}, #{title}, #{content}, #{writer}, CURRENT_TIMESTAMP
+        )
+    </insert>
+
+    <update id="updateBoard" parameterType="egovframework.board.service.BoardVO">
+        UPDATE BOARD
+           SET TITLE = #{title},
+               CONTENT = #{content},
+               WRITER = #{writer}
+         WHERE BOARD_ID = #{boardId}
+    </update>
+
+    <delete id="deleteBoard" parameterType="egovframework.board.service.BoardVO">
+        DELETE FROM BOARD
+         WHERE BOARD_ID = #{boardId}
+    </delete>
+
+</mapper>

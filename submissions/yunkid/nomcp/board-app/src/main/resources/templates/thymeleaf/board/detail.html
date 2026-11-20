@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title th:text="${boardVO.title}">게시글</title>
+    <link rel="stylesheet" th:href="@{/css/board.css}"/>
+</head>
+<body>
+<header class="top">
+    <div class="wrap">
+        <h1><a th:href="@{/boardList.do}">게시판</a></h1>
+    </div>
+</header>
+<main class="wrap panel">
+    <p class="notice" th:if="${message}" th:text="${message}">알림</p>
+    <h2 th:text="${boardVO.title}">제목</h2>
+    <p class="meta">
+        <span th:text="${boardVO.writer}">작성자</span>
+        ·
+        <span th:text="${#dates.format(boardVO.regDt, 'yyyy-MM-dd HH:mm')}">2026-11-20</span>
+    </p>
+    <div class="content" th:text="${boardVO.content}">내용</div>
+    <h3 th:if="${!fileList.isEmpty()}">첨부파일</h3>
+    <ul class="files" th:if="${!fileList.isEmpty()}">
+        <li th:each="file : ${fileList}">
+            <a th:href="@{/boardFileDownload.do(fileId=${file.fileId})}" th:text="${file.orgFileNm}">file.txt</a>
+            <span th:text="|(${#numbers.formatDecimal(file.fileSize / 1024.0, 1, 1)} KB)|">(1.0 KB)</span>
+        </li>
+    </ul>
+    <div class="actions">
+        <a class="button secondary" th:href="@{/boardList.do}">목록</a>
+        <span>
+            <a class="button" th:href="@{/boardUpdate.do(boardId=${boardVO.boardId})}">수정</a>
+            <form th:action="@{/deleteBoard.do}" method="post" style="display:inline">
+                <input type="hidden" name="boardId" th:value="${boardVO.boardId}"/>
+                <button class="danger" type="submit" onclick="return confirm('게시글을 삭제하시겠습니까?');">삭제</button>
+            </form>
+        </span>
+    </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>게시판</title>
+    <link rel="stylesheet" th:href="@{/css/board.css}"/>
+</head>
+<body>
+<header class="top">
+    <div class="wrap">
+        <h1><a th:href="@{/boardList.do}">게시판</a></h1>
+        <a class="button" th:href="@{/boardRegister.do}">글쓰기</a>
+    </div>
+</header>
+<main class="wrap panel">
+    <p class="notice" th:if="${message}" th:text="${message}">알림</p>
+    <form class="search" th:action="@{/boardList.do}" method="get" th:object="${boardVO}">
+        <select name="searchCondition" th:field="*{searchCondition}">
+            <option value="title">제목</option>
+            <option value="writer">작성자</option>
+            <option value="content">내용</option>
+        </select>
+        <input type="text" name="searchKeyword" th:field="*{searchKeyword}" placeholder="검색어"/>
+        <button type="submit">검색</button>
+    </form>
+    <p class="meta" th:text="|전체 ${paginationInfo.totalRecordCount}건|">전체 0건</p>
+    <table>
+        <thead>
+        <tr>
+            <th class="num">번호</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th class="date">등록일</th>
+            <th class="count">첨부</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${#lists.isEmpty(resultList)}">
+            <td class="empty" colspan="5">등록된 게시글이 없습니다.</td>
+        </tr>
+        <tr th:each="row, stat : ${resultList}">
+            <td class="num" th:text="${paginationInfo.totalRecordCount - paginationInfo.firstRecordIndex - stat.index}">1</td>
+            <td><a th:href="@{/boardDetail.do(boardId=${row.boardId})}" th:text="${row.title}">제목</a></td>
+            <td th:text="${row.writer}">작성자</td>
+            <td class="date" th:text="${#dates.format(row.regDt, 'yyyy-MM-dd HH:mm')}">2026-11-20</td>
+            <td class="count" th:text="${row.fileCnt}">0</td>
+        </tr>
+        </tbody>
+    </table>
+    <nav class="pager" th:if="${paginationInfo.totalPageCount > 0}">
+        <a th:if="${paginationInfo.currentPageNo > 1}"
+           th:href="@{/boardList.do(pageIndex=${paginationInfo.currentPageNo - 1}, searchCondition=${boardVO.searchCondition}, searchKeyword=${boardVO.searchKeyword})}">이전</a>
+        <span th:each="pageNo : ${#numbers.sequence(paginationInfo.firstPageNoOnPageList, paginationInfo.lastPageNoOnPageList)}">
+            <span th:if="${pageNo == paginationInfo.currentPageNo}" class="current" th:text="${pageNo}">1</span>
+            <a th:unless="${pageNo == paginationInfo.currentPageNo}"
+               th:href="@{/boardList.do(pageIndex=${pageNo}, searchCondition=${boardVO.searchCondition}, searchKeyword=${boardVO.searchKeyword})}"
+               th:text="${pageNo}">1</a>
+        </span>
+        <a th:if="${paginationInfo.currentPageNo < paginationInfo.totalPageCount}"
+           th:href="@{/boardList.do(pageIndex=${paginationInfo.currentPageNo + 1}, searchCondition=${boardVO.searchCondition}, searchKeyword=${boardVO.searchKeyword})}">다음</a>
+    </nav>
+</main>
+</body>
+</html>

@@ -1,0 +1,42 @@
+{
+  "id": "yunkid",
+  "tool": "Cursor",
+  "model": "Claude Sonnet 5.5 · medium",
+  "platform": "win32-x64",
+  "versions": {
+    "node": "24.20.0",
+    "java": "17.0.21.1",
+    "maven": "3.9.9",
+    "git": "2.54.0.windows.1",
+    "gh": "2.102.0"
+  },
+  "current": "mcp",
+  "runs": {
+    "nomcp": {
+      "tool": "Cursor",
+      "setupAt": "2026-11-20T05:18:49.450Z",
+      "limitMinutes": 30,
+      "warnings": [
+        "켜져 있는 다른 MCP 서버: navidm (~/.cursor/mcp.json)",
+        "켜져 있는 다른 MCP 서버: navid-ai (~/.cursor/mcp.json)",
+        "켜져 있는 다른 MCP 서버: navidm-support (~/.cursor/mcp.json)"
+      ],
+      "submittedAt": "2026-11-20T05:41:48.803Z",
+      "elapsedMinutes": 23,
+      "overLimit": false
+    },
+    "mcp": {
+      "tool": "Cursor",
+      "setupAt": "2026-11-20T05:43:27.722Z",
+      "limitMinutes": 20,
+      "warnings": [
+        "켜져 있는 다른 MCP 서버: navidm (~/.cursor/mcp.json)",
+        "켜져 있는 다른 MCP 서버: navid-ai (~/.cursor/mcp.json)",
+        "켜져 있는 다른 MCP 서버: navidm-support (~/.cursor/mcp.json)"
+      ],
+      "submittedAt": "2026-11-20T05:59:45.471Z",
+      "elapsedMinutes": 16.3,
+      "overLimit": false
+    }
+  }
+}
