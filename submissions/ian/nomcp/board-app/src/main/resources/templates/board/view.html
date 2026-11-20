@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>게시물 보기</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+<main class="container narrow">
+    <article class="panel">
+        <h1 class="post-title" th:text="${board.title}"></h1>
+        <div class="card-meta">
+            <span class="avatar" th:text="${#strings.substring(board.writer, 0, 1)}"></span>
+            <span th:text="${board.writer}"></span>
+            <span class="dot">·</span>
+            <span th:text="${#temporals.format(board.regDt, 'yyyy-MM-dd HH:mm')}"></span>
+        </div>
+        <div class="content" th:text="${board.content}"></div>
+
+        <h3 class="section-label">첨부파일</h3>
+        <ul class="files">
+            <li th:each="f : ${board.files}">
+                <a th:href="@{/files/{id}(id=${f.fileId})}">
+                    <span class="file-icon">&#128206;</span>
+                    <span th:text="${f.origName}"></span>
+                    <small th:text="${#numbers.formatDecimal(f.fileSize / 1024.0, 1, 1)} + ' KB'"></small>
+                </a>
+            </li>
+            <li class="muted" th:if="${#lists.isEmpty(board.files)}">첨부파일이 없습니다.</li>
+        </ul>
+    </article>
+
+    <nav class="pager">
+        <a th:if="${prev != null}" class="pager-item" th:href="@{/boards/{id}(id=${prev.boardId})}">
+            <small>&larr; 이전 글</small>
+            <span th:text="${prev.title}"></span>
+        </a>
+        <span th:if="${prev == null}" class="pager-item disabled"><small>&larr; 이전 글</small><span>이전 글이 없습니다.</span></span>
+        <a th:if="${next != null}" class="pager-item next" th:href="@{/boards/{id}(id=${next.boardId})}">
+            <small>다음 글 &rarr;</small>
+            <span th:text="${next.title}"></span>
+        </a>
+        <span th:if="${next == null}" class="pager-item next disabled"><small>다음 글 &rarr;</small><span>다음 글이 없습니다.</span></span>
+    </nav>
+
+    <div class="actions between">
+        <a class="btn" th:href="@{/boards}">&larr; 목록</a>
+        <span class="actions">
+            <a class="btn" th:href="@{/boards/{id}/edit(id=${board.boardId})}">수정</a>
+            <form th:action="@{/boards/{id}/delete(id=${board.boardId})}" method="post"
+                  onsubmit="return confirm('삭제하시겠습니까?');">
+                <button type="submit" class="btn btn-danger">삭제</button>
+            </form>
+        </span>
+    </div>
+</main>
+</body>
+</html>

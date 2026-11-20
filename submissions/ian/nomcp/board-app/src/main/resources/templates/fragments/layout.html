@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<body>
+<header th:fragment="header" class="site-header">
+    <div class="container header-inner">
+        <a class="brand" th:href="@{/boards}"><span class="logo">B</span>게시판</a>
+        <nav>
+            <a class="btn btn-primary" th:href="@{/boards/new}">글쓰기</a>
+        </nav>
+    </div>
+</header>
+</body>
+</html>

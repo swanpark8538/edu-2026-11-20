@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>게시물 작성</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+<main class="container narrow">
+    <form class="panel" method="post" enctype="multipart/form-data"
+          th:action="${board.boardId == null} ? @{/boards} : @{/boards/{id}(id=${board.boardId})}">
+        <h1 class="post-title" th:text="${board.boardId == null} ? '글쓰기' : '글 수정'"></h1>
+
+        <label>제목
+            <input type="text" name="title" th:value="${board.title}" maxlength="200" placeholder="제목을 입력하세요">
+            <span class="error" th:if="${#fields.hasErrors('board.title')}" th:errors="${board.title}"></span>
+        </label>
+        <label>작성자
+            <input type="text" name="writer" th:value="${board.writer}" maxlength="50" placeholder="이름">
+            <span class="error" th:if="${#fields.hasErrors('board.writer')}" th:errors="${board.writer}"></span>
+        </label>
+        <label>내용
+            <textarea name="content" rows="10" maxlength="4000" placeholder="내용을 입력하세요" th:text="${board.content}"></textarea>
+            <span class="error" th:if="${#fields.hasErrors('board.content')}" th:errors="${board.content}"></span>
+        </label>
+
+        <div th:if="${board.files != null and !board.files.isEmpty()}">
+            <h3 class="section-label">기존 첨부파일 (체크하면 삭제)</h3>
+            <ul class="files">
+                <li th:each="f : ${board.files}">
+                    <label class="inline">
+                        <input type="checkbox" name="deleteFileIds" th:value="${f.fileId}">
+                        <span th:text="${f.origName}"></span>
+                    </label>
+                </li>
+            </ul>
+        </div>
+
+        <label>첨부파일
+            <input type="file" name="uploadFiles" multiple>
+        </label>
+
+        <div class="actions">
+            <button type="submit" class="btn btn-primary">저장</button>
+            <a class="btn" th:href="@{/boards}">취소</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>

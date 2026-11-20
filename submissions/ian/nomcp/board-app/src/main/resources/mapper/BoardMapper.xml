@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.boardapp.board.BoardMapper">
+
+    <select id="selectBoardList" resultType="egovframework.boardapp.board.BoardVO">
+        SELECT BOARD_ID, TITLE, CONTENT, WRITER, REG_DT FROM BOARD ORDER BY BOARD_ID DESC
+    </select>
+
+    <select id="selectBoard" parameterType="string" resultType="egovframework.boardapp.board.BoardVO">
+        SELECT BOARD_ID, TITLE, CONTENT, WRITER, REG_DT FROM BOARD WHERE BOARD_ID = #{boardId}
+    </select>
+
+    <!-- 이전 글: 바로 앞(더 오래된) 글 -->
+    <select id="selectPrevBoard" parameterType="string" resultType="egovframework.boardapp.board.BoardVO">
+        SELECT BOARD_ID, TITLE, WRITER, REG_DT FROM BOARD
+         WHERE BOARD_ID &lt; #{boardId} ORDER BY BOARD_ID DESC LIMIT 1
+    </select>
+
+    <!-- 다음 글: 바로 뒤(더 최신) 글 -->
+    <select id="selectNextBoard" parameterType="string" resultType="egovframework.boardapp.board.BoardVO">
+        SELECT BOARD_ID, TITLE, WRITER, REG_DT FROM BOARD
+         WHERE BOARD_ID &gt; #{boardId} ORDER BY BOARD_ID ASC LIMIT 1
+    </select>
+
+    <select id="nextBoardId" resultType="string">
+        SELECT 'BRD' || LPAD(CAST(NEXT VALUE FOR BOARD_SEQ AS VARCHAR(10)), 10, '0') FROM (VALUES (0))
+    </select>
+
+    <insert id="insertBoard" parameterType="egovframework.boardapp.board.BoardVO">
+        INSERT INTO BOARD (BOARD_ID, TITLE, CONTENT, WRITER) VALUES (#{boardId}, #{title}, #{content}, #{writer})
+    </insert>
+
+    <update id="updateBoard" parameterType="egovframework.boardapp.board.BoardVO">
+        UPDATE BOARD SET TITLE = #{title}, CONTENT = #{content}, WRITER = #{writer} WHERE BOARD_ID = #{boardId}
+    </update>
+
+    <delete id="deleteBoard" parameterType="string">
+        DELETE FROM BOARD WHERE BOARD_ID = #{boardId}
+    </delete>
+
+    <select id="selectFileList" parameterType="string" resultType="egovframework.boardapp.board.BoardFileVO">
+        SELECT FILE_ID, BOARD_ID, ORIG_NAME, STORED_NAME, FILE_SIZE, CONTENT_TYPE
+          FROM BOARD_FILE WHERE BOARD_ID = #{boardId} ORDER BY FILE_ID
+    </select>
+
+    <select id="selectFile" parameterType="string" resultType="egovframework.boardapp.board.BoardFileVO">
+        SELECT FILE_ID, BOARD_ID, ORIG_NAME, STORED_NAME, FILE_SIZE, CONTENT_TYPE
+          FROM BOARD_FILE WHERE FILE_ID = #{fileId}
+    </select>
+
+    <select id="nextFileId" resultType="string">
+        SELECT 'FIL' || LPAD(CAST(NEXT VALUE FOR ATTACH_SEQ AS VARCHAR(10)), 10, '0') FROM (VALUES (0))
+    </select>
+
+    <insert id="insertFile" parameterType="egovframework.boardapp.board.BoardFileVO">
+        INSERT INTO BOARD_FILE (FILE_ID, BOARD_ID, ORIG_NAME, STORED_NAME, FILE_SIZE, CONTENT_TYPE)
+        VALUES (#{fileId}, #{boardId}, #{origName}, #{storedName}, #{fileSize}, #{contentType})
+    </insert>
+
+    <delete id="deleteFile" parameterType="string">
+        DELETE FROM BOARD_FILE WHERE FILE_ID = #{fileId}
+    </delete>
+</mapper>
